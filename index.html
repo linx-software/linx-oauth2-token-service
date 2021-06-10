@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>API Token Manager</title>
+    <link rel="shortcut icon" href="icons/favicon.png" />
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="css/custom.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="container p-3 mb-2 bg-dark text-light gy-10">
+        <div class="row">
+          <div class="container col-8 gx-5">
+            <div class="row">
+              <div class="logo-linx-words-background col-1"></div>
+              <span class="col"
+                ><h3 class="text-muted">
+                  <code class="code-success">OAUTH 2.0</code><br />
+                  API TOKEN MANAGEMENT
+                </h3></span
+              >
+            </div>
+          </div>
+          <div class="col-3 server-alert-section" style="z-index: 5"></div>
+        </div>
+
+        <div class="row">
+          <div class="container border-top border-secondary gy-3 gx-5">
+            <div class="">
+              <form class="row g-3">
+                <h5>
+                  <code class="text-muted">LINX OAUTHY SERVICE CONFIG</code>
+                </h5>
+                <div class="row">
+                  <div class="input-group col-8">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input input-local-env"
+                        type="checkbox"
+                        id="flexSwitchCheckDefault"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="Live cloud server"
+                      />
+                    </div>
+                    <code>
+                      <span
+                        class="input-group-text text-muted bg-transparent"
+                        id="inp-protocol"
+                        >http://</span
+                      ></code
+                    >
+                    <input
+                      type="text"
+                      class="form-control text-muted bg-transparent"
+                      id="inp-hostname"
+                      aria-describedby="basic-addon3"
+                      placeholder="Linx server hostname"
+                      value="localhost"
+                      disabled="true"
+                    />
+                    <span
+                      class="input-group-text text-muted bg-transparent"
+                      id="inp-port-divider"
+                      >:</span
+                    >
+                    <input
+                      type="text"
+                      class="form-control text-muted bg-transparent selected"
+                      id="inp-port"
+                      aria-describedby="basic-addon3"
+                      placeholder="{port}"
+                      value="8080"
+                    />
+                    <div
+                      class="btn icon icon-ping-inactive"
+                      id="btnTestConnection"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Ping server"
+                    ></div>
+                    <div
+                      class="btn icon icon-connection"
+                      id="connectionStatusIcon"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Status"
+                    ></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div
+              class="container border-top border-secondary rounded gy-3 gx-5"
+            >
+              <h4>
+                <code class="text-muted">OAUTH 2.0 CONNECTIONS</code
+                ><span> - [<code class="connection-status-words"></code>]</span>
+              </h4>
+
+              <div
+                class="
+                  row
+                  connections-container
+                  position-relative
+                  overflow-hidden
+                "
+              >
+                <div class="col-12">
+                  <table
+                    class="table table-hover table-dark"
+                    id="connection-table"
+                  ></table>
+                </div>
+                <div class="connection-error-area btn-danger visually-hidden">
+                  <div class="icon-big icon-cloud-disconnected"></div>
+                  <h2>There was an error retrieving the connection data.</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="container border-top border-secondary gy-3 gx-5">
+            <p class="text-muted">
+              Built by
+              <a href="https://github.com/ronanaw"
+                ><code class="code-success">@ronanaw</code></a
+              >
+              using the low-code back-end development platform
+              <a href="https://linx.software"
+                ><code class="code-success">LINX</code></a
+              >
+              and the front-end framework of Bootstrap.<br /><br />
+              More instructions are available on the GitHub project.<br /><br />
+              See
+              <a href="https://github.com/linx-software"
+                ><code class="code-success">linx-software</code></a
+              >
+              on GitHub.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jquery  -->
+
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- customjs -->
+    <script src="./index.js"></script>
+  </body>
+</html>
