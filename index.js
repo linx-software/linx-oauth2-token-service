@@ -32,12 +32,12 @@ const AJAX = async function (url, uploadData = undefined) {
     console.log(`URL is ${url}`);
     const fetchPro = uploadData
       ? fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(uploadData),
-        })
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(uploadData),
+      })
       : fetch(url);
 
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
@@ -76,7 +76,7 @@ const model = new Model();
 
 const renderDashboard = function (data) {
   const tblHeaderHtml = `<tr>
-      <th></th><th></th><th></th><th></th><th></th><th><small>ENTITY</small></th><th><small>EXPIRY</small></th><th></th>
+      <th></th><th></th><th></th><th></th><th><small>ENTITY</small></th><th><small>EXPIRY</small></th><th></th>
     </tr>`;
   const dashboardEl = document.querySelector("#connection-table");
   dashboardEl.innerHTML = "";
@@ -121,9 +121,8 @@ const formatCoundownDate = function (expiryTimestamp) {
   const { day, month, hour, minute, second } = utilParseTimestamp(
     expiryTimestamp - curDate
   );
-  return `${month > 0 ? month + " months," : ""} ${
-    day > 0 ? day + " day," : ""
-  }  ${hour > 0 ? hour + " hrs," : ""}  ${minute > 0 ? minute + " mins" : ""}`;
+  return `${month > 0 ? month + " months," : ""} ${day > 0 ? day + " day," : ""
+    }  ${hour > 0 ? hour + " hrs," : ""}  ${minute > 0 ? minute + " mins" : ""}`;
 };
 
 const renderConnectionRow = function (data) {
@@ -176,50 +175,44 @@ const renderConnectionRow = function (data) {
     data.status === "inactive"
       ? "danger"
       : data.status === "pending"
-      ? "warning"
-      : data.status === "active"
-      ? "success"
-      : "muted";
+        ? "warning"
+        : data.status === "active"
+          ? "success"
+          : "muted";
 
   const btnText =
     data.status === "inactive"
       ? "authorize"
       : data.status === "pending"
-      ? "re-authorize"
-      : data.status === "active"
-      ? "revoke"
-      : "";
+        ? "re-authorize"
+        : data.status === "active"
+          ? "revoke"
+          : "";
 
   return `
-  <tr data-platform="${data.name}" class="text-${
-    data.status === "active" ? "light" : "muted"
-  } container">
+  <tr data-platform="${data.name}" class="text-${data.status === "active" ? "light" : "muted"
+    } container">
     <td class="col-1">
-      <div class="icon icon-logo icon-logo-${data.name}${
-    data.status === "active" ? "-active" : ""
-  } " >
+      <div class="icon icon-logo icon-logo-${data.name}${data.status === "active" ? "-active" : ""
+    } " >
           
       </div>   
     </td>
     
     <td class="col-1">
-    <div class="bg-text-${cssStatus} bg-outline-${cssStatus} icon icon-status-${
-    data.status
-  }" >        
+    <div class="bg-text-${cssStatus} bg-outline-${cssStatus} icon icon-status-${data.status
+    }" >        
     </div>
     </td>
     
-    <td data-action="${
-      data.status !== "active" ? "authorize" : "revoke"
-    }" class="col-1" ><code class="btn-code-msg-danger d-flex flex-wrap"><button class="btn" data-bs-toggle="tooltip" data-bs-placement="left" title="${
-    data.status !== "active" ? "Authorize" : "Revoke"
-  }"><div class="icon ${
-    data.status !== "active"
+    <td data-action="${data.status !== "active" ? "authorize" : "revoke"
+    }" class="col-1" ><code class="btn-code-msg-danger d-flex flex-wrap"><button class="btn" data-bs-toggle="tooltip" data-bs-placement="left" title="${data.status !== "active" ? "Authorize" : "Revoke"
+    }"><div class="icon ${data.status !== "active"
       ? "icon-authorize-inactive"
       : "icon-revoke-inactive"
-  }"></code></div></button></td>
+    }"></code></div></button></td>
   <td class="col-1"  data-action="copy-token"><button class="btn btn-copy-token" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy access token"><div class="icon icon-file-lock-inactive"></div></button></td>
-    <td class="col-1" data-action="refresh-entity"><button class="btn btn-connected-entity" data-bs-toggle="tooltip" data-bs-placement="left" title="Refresh entity details"><div class="icon icon-connected-entity-inactive"></div></button></td>
+    
     <td class="col-3">${data.connectedEntity}</td>
     <td class="col">${formattedDateHtml}</td>
     <td class="col">${formattedCountdownHtml}</td>
@@ -332,7 +325,7 @@ const renderConnectionStatus = function (status = undefined) {
   connectionStatusEl.innerHTML = "";
   const connStatusWords = document.querySelector(".connection-status-words");
   connStatusWords.innerHTML = "";
-  // Not connected
+
   if (!status || !status === "connected") {
     console.log("rendering disconnected");
     connectionStatusEl.innerHTML = `
@@ -340,6 +333,7 @@ const renderConnectionStatus = function (status = undefined) {
     
     </div>`;
     connStatusWords.classList.toggle("code-success");
+    if (connStatusWords.classList.contains("code-success")) connStatusWords.classList.remove("code-success")
     connStatusWords.textContent = "DISCONNECTED";
   }
 
@@ -350,7 +344,7 @@ const renderConnectionStatus = function (status = undefined) {
     
     </div>`;
     connStatusWords.textContent = "CONNECTED";
-    connStatusWords.classList.toggle("code-success");
+    if (!connStatusWords.classList.contains("code-success")) connStatusWords.classList.addpc("code-success")
     // if (connectionStatusEl.classList.contains("btn-danger"))
     //   connectionStatusEl.classList.remove("btn-danger");
     // connectionStatusEl.classList.add("btn-success");
