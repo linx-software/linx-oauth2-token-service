@@ -126,22 +126,42 @@ isLocalDevelopment: If running locally you can leave as is
 |LinxIsLocalDevEnv | Indicates if you are running the Solution locally or not | True | False |
 |LinxServerHostname | If you are hosting on a Linx Cloud server, add your instance here, so for example if my server is `https://demo.linx.twenty57.net` then my instance name is "demo". | localhost | {instance name}
 
+
 ---
 
 ## Using the sample
 
----
+The Solution is configured to automatically alter connection properties based on the `$.Settings.LinxIsLocalDevEnv` value.
 
-Generating tokens
-Follow the below steps to initiate the OAuth 2.0 flow between your chosen platforms authorization server and the provided sample Linx Solution:
+If you have followed the above steps then no more configuration is needed and you can follow the below instructions to generate your access tokens:
 
-1. Debug the RESTHost service in the Linx Designer.
-2. Click on the relevant log in button below to initiate the OAuth 2.0 flow between your Linx Solution and the chosen Service Provider.
-3. You will be redirected to the chosen service provider's login page.
+
+1. Deploy and active the Linx Solution:
+    
+
+    **Locally**
+
+    1. In your Linx Designer, initialize the debugger on the REST web service.
+    2. Once the debugger has been initizled, start the debugger.
+    
+
+    **Cloud**
+    1. Deploy your Solution to your Linx application server.
+    2. Start the Solution.
+    3. Locate the REST web service and 'start' it.
+
+3. Once the service is active, open the [monitoring dashboard](/index.html)
+4. Configure the server connection details (*You can skip this leave as is if you havent altered the setup environment*)
+5. Click on the 'Ping connection' icon to test the connection out, a result message will be displayed.
+6. If connection is successful, a list of the available 3rd-party systems and the authentication status will be displayed.
+7. To generate access tokens for your chosen 3rd-party system, select it the 3rd party system in the dashboard and hover over the **key** icon and you will see the 'Authorize' option appear.
+8. Click the **key** icon.
+9. A new tab will open, redirecting you to the chosen service provider's login page.
 4. Once logged in, grant the connected Linx application permission to access your account's resources.
 5. A redirection request will be made by the platform's authorization server to the Linx web service redirect url `{system name}/oauth/token` with an authorization code.
 6. Linx then makes a request back to the authorization server submitting client credentials and the authorization code.
 7. The generated token is then stored in the configured database.
 8. An authorization summary containing details of the connected entity are returned and displayed to the user.
+9. If you then refresh your dashboard or wait, the results of the connection will be displayed.
 
 ---
