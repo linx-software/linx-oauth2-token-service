@@ -1,5 +1,6 @@
 // CONFIGS
 
+const KONG_URL = '.api.linx.twenty57.net'
 const AUTHORIZATION_ENDPOINT = "/oauth/authorize";
 const REVOKE_ENDPOINT = "/oauth/revoke";
 const SERVICE_DASHOARD_ENDPOINT = "/oauth/status";
@@ -14,9 +15,9 @@ const connectionInfoTableEl = document.querySelector("#connection-table");
 const btnSwitchLocalDevEnv = document.querySelector(".input-local-env");
 
 const inputPortEl = document.querySelector("#inp-port");
-const portDividerEl = document.querySelector("#inp-port-divider");
 const inputHostnameEl = document.querySelector("#inp-hostname");
-const inputProtoclEl = document.querySelector("#inp-protocol");
+const portGroupEl = document.querySelector(".inp-port-group");
+
 
 // HELPERS
 const timeout = function (s) {
@@ -198,7 +199,7 @@ const renderConnectionRow = function (data) {
           
       </div>   
     </td>
-    
+    <td class="col-1"  data-action="copy-callback"><button class="btn btn-copy-token" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy Redirect URL?Callback URL"><div class="icon icon-file-lock-inactive"></div></button></td>
     <td class="col-1">
     <div class="bg-text-${cssStatus} bg-outline-${cssStatus} icon icon-status-${data.status
     }" >        
@@ -251,18 +252,21 @@ connectionInfoTableEl.addEventListener("click", async function (e) {
 });
 
 const getPort = function () {
-  const port = document.querySelector("#inp-port").value;
-  return ":" + port;
+
+  const isLocalEnv = btnSwitchLocalDevEnv.checked;
+  const port = isLocalEnv ? ':' + document.querySelector("#inp-port").value : ''
+  return port
 };
 
 const getHostname = function () {
-  const hostname = document.querySelector("#inp-hostname").value;
+  const isLocalEnv = btnSwitchLocalDevEnv.checked;
+  const hostname = isLocalEnv ? "localhost" : document.querySelector("#inp-hostname").value + ".api.linx.twenty57.net";
   return hostname;
 };
 
 const getProtocol = function () {
-  const isCloudHosted = btnSwitchLocalDevEnv.checked;
-  const protocol = isCloudHosted ? "https://api." : "http://";
+  const isLocalEnv = btnSwitchLocalDevEnv.checked;
+  const protocol = isLocalEnv ? "http://" : "https://";
   return protocol;
 };
 
@@ -399,44 +403,27 @@ const controlConnectionTest = async function () {
 };
 
 btnSwitchLocalDevEnv.addEventListener("click", function (e) {
-  const isCloudHosted = btnSwitchLocalDevEnv.checked;
-  if (isCloudHosted) {
+  const isLocalEnv = btnSwitchLocalDevEnv.checked;
+  if (!isLocalEnv) {
     // Switch protocol to HTTPS
-    inputProtoclEl.textContent = "https://api.";
     inputHostnameEl.value = "";
     inputHostnameEl.classList.toggle("text-light");
-    inputHostnameEl.toggleAttribute("disabled");
-
-    inputHostnameEl.classList.toggle("selected");
     inputHostnameEl.classList.toggle("text-muted");
 
-    inputPortEl.value = ".linx.twenty57.net";
-    // inputPortEl.classList.toggle("text-muted");
-    inputPortEl.classList.toggle("selected");
-    inputPortEl.toggleAttribute("disabled");
+    inputHostnameEl.toggleAttribute("disabled");
 
-    portDividerEl.textContent = "";
-    portDividerEl.classList.toggle("d-none");
+    portGroupEl.classList.toggle('d-none');
 
-    // inputPortEl.setAttribute("disabled", "true");
   }
 
-  if (!isCloudHosted) {
+  if (isLocalEnv) {
     // Switch protocol to HTTPS
-    inputProtoclEl.textContent = "http://";
 
     inputHostnameEl.value = "localhost";
     inputHostnameEl.classList.toggle("text-light");
     inputHostnameEl.toggleAttribute("disabled");
-    inputHostnameEl.classList.toggle("selected");
-    inputHostnameEl.classList.toggle("text-muted");
-
-    portDividerEl.textContent = ":";
-    portDividerEl.classList.toggle("d-none");
-
     inputPortEl.value = "8080";
-    inputPortEl.toggleAttribute("disabled");
-    inputPortEl.classList.toggle("selected");
+    portGroupEl.classList.toggle('d-none');
   }
 });
 
@@ -483,7 +470,7 @@ const init = async function () {
   }
 };
 
-init();
+// init();
 
 // setInterval(monitorServerConnection, 10000);
 // setInterval(refreshDashboardData, 60000);

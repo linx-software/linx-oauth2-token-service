@@ -23,3 +23,4 @@ INSERT INTO connections (`platform_name`) values ('google');
 INSERT INTO connections (`platform_name`) values ('salesforce');
 INSERT INTO connections (`platform_name`) values ('github');
 INSERT INTO connections (`platform_name`) values ('xero');
+INSERT INTO connections (`platform_name`) values ('facebook');

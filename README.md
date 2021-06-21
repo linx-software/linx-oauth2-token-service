@@ -37,7 +37,8 @@ The following 3rd-party platforms have already been setup with the Solution (you
 - [Microsot Graph](https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0&preserve-view=true)
 - [Salesforce](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_curl.htm)
 - [Google]()
-- [Xero API]()
+- [Xero]()
+- [Facebook]()
 
 
 ## Additional resources:
@@ -65,7 +66,9 @@ The following 3rd-party platforms have already been setup with the Solution (you
 
 The sample Solution utilizes a MqSQL database instance as a datasource to store and retrieve the neccessary access tokens.
 
-Run the [CREATE DATABASE script](mysql-setup-script.sql) on your local MySQL instance and configure the connection details as $.Settings in the sample Linx Solution.
+Run the [CREATE DATABASE script](mysql-setup-script.sql) on your MySQL instance (local or cloud based) and configure the connection details as $.Settings in the sample Linx Solution.
+
+
 
 ---
 
@@ -101,7 +104,7 @@ The process is as follows:
 
     Hosted on a Linx Cloud Server
 
-        Redirect URL: https://api.{your instance name}/oauthy/{system name}/oauth/token
+        Redirect URL: https://{your instance name}.api.linx.twenty57.net/oauthy/{system name}/oauth/token
 
 1. Save your registered app and generate a new `client secret`.
 1. Copy your client identifiers (`client id` and `client secret`).
@@ -121,10 +124,10 @@ Configure the $.Settings of the Linx Solution with the following details:
 ServerHost: If running locally you can leave as is
 isLocalDevelopment: If running locally you can leave as is
 
-| Setting name | Description | local env | cloud ev 
-| --- | --- | --- | ---
-|LinxIsLocalDevEnv | Indicates if you are running the Solution locally or not | True | False |
-|LinxServerHostname | If you are hosting on a Linx Cloud server, add your instance here, so for example if my server is `https://demo.linx.twenty57.net` then my instance name is "demo". | localhost | {instance name}
+| Setting name | Description | Environment: |  local  |  cloud  
+| --- | --- | --- | --- | ---
+|LinxIsLocalDevEnv | Indicates if you are running the Solution locally or not | | True | False |
+|LinxServerHostname | If you are hosting on a Linx Cloud server, add your instance here, so for example if my server is `https://demo.linx.twenty57.net` then my instance name is "demo". | |  localhost | {instance name}
 
 
 ---
@@ -151,7 +154,7 @@ If you have followed the above steps then no more configuration is needed and yo
     3. Locate the REST web service and 'start' it.
 
 3. Once the service is active, open the [monitoring dashboard](/index.html)
-4. Configure the server connection details (*You can skip this leave as is if you havent altered the setup environment*)
+4. Configure the server connection details (*You can skip this leave as is if you have not altered the setup environment*)
 5. Click on the 'Ping connection' icon to test the connection out, a result message will be displayed.
 6. If connection is successful, a list of the available 3rd-party systems and the authentication status will be displayed.
 7. To generate access tokens for your chosen 3rd-party system, select it the 3rd party system in the dashboard and hover over the **key** icon and you will see the 'Authorize' option appear.

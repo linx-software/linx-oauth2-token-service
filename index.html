@@ -29,19 +29,66 @@
         <div class="col-3 server-alert-section" style="z-index: 5"></div>
       </div>
 
-      <div class="row">
-        <div class="container border-top border-secondary gy-3 gx-5">
+      <div class="row border-top border-secondary">
+        <div class="container col-sm-12 col-md-4 border border-secondary rounded mb-5 gy-5 gx-5  gx-5">
           <div class="">
             <form class="row g-3">
               <h5>
-                <code class="text-muted">LINX OAUTHY SERVICE CONFIG</code>
+                <code class="text-muted">AUTHENTICATION SERVICE CONFIG</code>
               </h5>
-              <div class="row">
-                <div class="input-group col-8">
-                  <div class="form-check form-switch">
+              <div class="row gy-1">
+
+                <div class="input-group">
+                  <span class="col-form-label col-5 text-muted bg-transparent  " id="addon-wrapping">Local
+                    environment:</span>
+                  <div class="form-check form-switch bg-transparent">
                     <input class="form-check-input input-local-env" type="checkbox" id="flexSwitchCheckDefault"
-                      data-bs-toggle="tooltip" data-bs-placement="top" title="Live cloud server" />
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Local dev env" />
                   </div>
+                </div>
+
+              </div>
+              <div class="row  gy-1">
+
+                <div class="input-group">
+                  <span class="col-form-label col-5 text-muted bg-transparent" id="addon-wrapping">Hostname:</span>
+                  <input type="text" class="form-control  text-muted bg-transparent" id="inp-hostname"
+                    aria-describedby="basic-addon3" />
+                </div>
+
+              </div>
+              <div class="row gy-1 inp-port-group d-none">
+                <div class="input-group flex-nowrap">
+                  <span class="col-form-label col-5  text-muted bg-transparent" id="addon-wrapping">Port:</span>
+                  <input type="text" class="form-control  text-muted bg-transparent" id="inp-port"
+                    aria-describedby="basic-addon3" placeholder="8080" />
+                </div>
+              </div>
+
+              <div class="row gy-1">
+                <div class="input-group flex-nowrap">
+                  <span class="col-form-label col-5 text-muted bg-transparent" id="addon-wrapping">API Key:</span>
+                  <input type="password" class="form-control text-muted bg-transparent" placeholder=""
+                    aria-label="Username" aria-describedby="addon-wrapping">
+                </div>
+              </div>
+              <div class="row gy-1 ">
+                <div class="input-group flex-nowrap">
+                  <span class="col-form-label col-5   text-muted bg-transparent" id="addon-wrapping">Connection
+                    status:</span>
+                  <code class="connection-status-words code-success">CONNECTED</code></span>
+                </div>
+
+              </div>
+              <div class="row gy-1">
+
+                <button class="form-control btn btn-outline-secondary" id="btnTestConnection" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Ping server"><span class="icon icon-ping-inactive">TEST
+                  </span></button>
+              </div>
+              <!-- <div class="row">
+                <div class="input-group col-8">
+
                   <code>
                       <span
                         class="input-group-text text-muted bg-transparent"
@@ -59,15 +106,16 @@
                   <div class="btn icon icon-connection" id="connectionStatusIcon" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Status"></div>
                 </div>
-              </div>
+              </div> -->
+
             </form>
           </div>
+
         </div>
-        <div class="row">
-          <div class="container border-top border-secondary rounded gy-3 gx-5">
+        <div class="row border-top border-secondary">
+          <div class="container  rounded gy-3 gx-5">
             <h4>
-              <code class="text-muted">OAUTH 2.0 CONNECTIONS</code><span> - [<code
-                  class="connection-status-words code-success"></code>]</span>
+              <code class="text-muted">OAUTH 2.0 CONNECTIONS</code>
             </h4>
 
             <div class="
@@ -90,15 +138,11 @@
       <div class="row">
         <div class="container border-top border-secondary gy-3 gx-5">
           <p class="text-muted">
-            Built by
-            <a href="https://github.com/ronanaw"><code class="code-success">@ronanaw</code></a>
-            using the low-code back-end development platform
-            <a href="https://linx.software"><code class="code-success">LINX</code></a>
-            and the front-end framework of Bootstrap.<br /><br />
-            More instructions are available on the GitHub project.<br /><br />
-            See
-            <a href="https://github.com/linx-software"><code class="code-success">linx-software</code></a>
-            on GitHub.
+
+            <a href="https://github.com/linx-software/samples"><img
+                src="https://img.shields.io/badge/GitHub-linx&#8211;software-informational?style=flat&logoColor=white&logo=github&color=2bbc8a">
+            </a>
+
           </p>
         </div>
       </div>
