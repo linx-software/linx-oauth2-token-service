@@ -5,9 +5,11 @@ const AUTHORIZATION_ENDPOINT = "/oauth/authorize";
 const REVOKE_ENDPOINT = "/oauth/revoke";
 const SERVICE_DASHOARD_ENDPOINT = "/oauth/status";
 const TOKEN_STR_ENDPOINT = "/oauth/tokenstring";
+const CALLBACK_STR_ENDPOINT = "/oauth/callbackurlstr";
 const API_AUT_SERVICE_PATH = "/oauthy";
 const DEFAULT_BASE_URI = "http://localhost:8080";
 const TIMEOUT_SEC = 15;
+const AUTH_TYPE = "basic";
 
 const refreshBtn = document.querySelector("#btnRefreshDashboard");
 const btnTestConnectionEl = document.querySelector("#btnTestConnection");
@@ -19,6 +21,7 @@ const inputHostnameEl = document.querySelector("#inp-hostname");
 const portGroupEl = document.querySelector(".inp-port-group");
 
 
+
 // HELPERS
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -28,18 +31,33 @@ const timeout = function (s) {
   });
 };
 
-const AJAX = async function (url, uploadData = undefined) {
+const AJAX = async function (url, uploadData = undefined,) {
   try {
     console.log(`URL is ${url}`);
+    const inputUsernameEl = document.querySelector("#inp-username");
+    const inputPasswordEl = document.querySelector("#inp-password")
+
+    const password = inputPasswordEl.value;
+    const username = inputUsernameEl.value;
+    console.log(`the password is ${password} and the username is ${username}`)
+    const credentialsEnc = btoa(`${username}:${password}`);
+
+
     const fetchPro = uploadData
       ? fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Basic ${credentialsEnc}`
         },
         body: JSON.stringify(uploadData),
       })
-      : fetch(url);
+      : fetch(url, {
+        method: "GET", headers: {
+          "Authorization": `Basic ${credentialsEnc}`
+        }
+      }
+      );
 
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
     console.log(res);
@@ -77,7 +95,7 @@ const model = new Model();
 
 const renderDashboard = function (data) {
   const tblHeaderHtml = `<tr>
-      <th></th><th></th><th></th><th></th><th><small>ENTITY</small></th><th><small>EXPIRY</small></th><th></th>
+      <th></th><th></th><th></th><th></th><th></th><th><small>ENTITY</small></th><th><small>EXPIRY</small></th><th></th>
     </tr>`;
   const dashboardEl = document.querySelector("#connection-table");
   dashboardEl.innerHTML = "";
@@ -199,7 +217,7 @@ const renderConnectionRow = function (data) {
           
       </div>   
     </td>
-    <td class="col-1"  data-action="copy-callback"><button class="btn btn-copy-token" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy Redirect URL?Callback URL"><div class="icon icon-file-lock-inactive"></div></button></td>
+    <td class="col-1"  data-action="copy-callback"><button class="btn btn-copy-callback" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy Redirect URL"><div class="icon icon-eyedropper"></div></button></td>
     <td class="col-1">
     <div class="bg-text-${cssStatus} bg-outline-${cssStatus} icon icon-status-${data.status
     }" >        
@@ -234,6 +252,12 @@ connectionInfoTableEl.addEventListener("click", async function (e) {
       const tokenStr = await getAccessTokenStr(platform);
       navigator.clipboard.writeText(tokenStr);
       renderAlert("Copied to clipboard", "success");
+      return;
+    }
+    if (clickedCell.dataset.action === "copy-callback") {
+      const callbackUrlStr = await getCallbackUrl(platform);
+      navigator.clipboard.writeText(callbackUrlStr);
+      renderAlert("Callback URL copied to clipboard", "success");
       return;
     }
     if (clickedCell.dataset.action === "authorize") {
@@ -312,6 +336,18 @@ const getAccessTokenStr = async function (systemName) {
   }
 };
 
+const getCallbackUrl = async function (systemName) {
+  try {
+    const url = `${buildBaseUri()}/${systemName}${CALLBACK_STR_ENDPOINT}`;
+    const callbackStr = await AJAX(url, undefined);
+    console.log(callbackStr);
+    return callbackStr;
+  } catch (err) {
+    renderAlert(err, "warning");
+    console.error(err);
+  }
+};
+
 const revokeToken = async function (systemName) {
   try {
     const url = `${buildBaseUri()}/${systemName}${REVOKE_ENDPOINT}`;
@@ -325,33 +361,18 @@ const revokeToken = async function (systemName) {
 };
 
 const renderConnectionStatus = function (status = undefined) {
-  const connectionStatusEl = document.querySelector("#connectionStatusIcon");
-  connectionStatusEl.innerHTML = "";
+
   const connStatusWords = document.querySelector(".connection-status-words");
   connStatusWords.innerHTML = "";
 
   if (!status || !status === "connected") {
-    console.log("rendering disconnected");
-    connectionStatusEl.innerHTML = `
-    <div class="icon icon-disconnected-active">
-    
-    </div>`;
-    connStatusWords.classList.toggle("code-success");
-    if (connStatusWords.classList.contains("code-success")) connStatusWords.classList.remove("code-success")
+    if (connStatusWords.classList.contains("code-success")) connStatusWords.classList.remove("code-success");
     connStatusWords.textContent = "DISCONNECTED";
   }
 
   if (status) {
-    console.log("rendering disconnected");
-    connectionStatusEl.innerHTML = `
-    <div class="icon icon-connected-active">
-    
-    </div>`;
     connStatusWords.textContent = "CONNECTED";
-    if (!connStatusWords.classList.contains("code-success")) connStatusWords.classList.addpc("code-success")
-    // if (connectionStatusEl.classList.contains("btn-danger"))
-    //   connectionStatusEl.classList.remove("btn-danger");
-    // connectionStatusEl.classList.add("btn-success");
+    if (!connStatusWords.classList.contains("code-success")) connStatusWords.classList.add("code-success");
   }
 };
 
@@ -377,6 +398,7 @@ const testConnection = async function () {
     return !connectionStatus ? undefined : true;
   } catch (err) {
     console.error(err);
+    renderConnectionStatus();
     throw err;
   }
 };

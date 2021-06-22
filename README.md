@@ -4,9 +4,12 @@
 
 When connecting to numerous of the 3rd-Party systems out there via REST API, authentication is typically done via the OAuth 2.0 flow. This involves a user authorizing a connected application to access protected resources. After this, the server-side application generates and stores access tokens in a datasource which are then retrieved and used when submitting HTTP requests in order to authenticate them.
 
+This authentication setup and authorization process can become frustrating and hinder your progress with integrations.
+
 ### Token generation service:
 This sample Linx Solution can be used to automatically:
 
+- copy Callback URL/Redirect URL
 - intiate the OAuth 2.0 flow between a Linx application cloud server (or local PC) and an authorization server
 - recieve the authentication code response
 - exchange the authorizaion code for access tokens
