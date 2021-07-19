@@ -25,6 +25,8 @@ The following 3rd-party service providers have already been setup with the Linx 
 
 The Linx Solution contains a REST web service which acts as an interface between the **resource owner** (user), **Linx Server** and a 3rd-Party service provider's **authentication server**.
 
+Access tokens are encrypted/decrypted using the runtime values of a user's API key.
+
 
 
 For more technical details, take a look at the [wiki](https://github.com/linx-software/oauth2-token-generator/wiki).
@@ -33,11 +35,9 @@ For more technical details, take a look at the [wiki](https://github.com/linx-so
 
 ## Live Demo
 
-A live version of this project is hosted on a publically accessable Linx  cloud server. 
+This sample is deployed and hosted on a publicly accessible Linx cloud server. 
 
-The official API documentation of the service is available [here](https://demo.api.linx.twenty57.net/linxauth/swagger).
-
-A [Postman collection](/tests/postman-collection/linx-auth-request-collection.json) is included in this repo to test and use the service. This collection includes test scripts which will use and store the relevant values returned from the Linx service as local Postman collection variables.
+[![](https://img.shields.io/badge/API_reference-white?style=flat&logo=swagger)](https://demo.api.linx.twenty57.net/linxauth/swagger) [![Made withPostman](https://img.shields.io/badge/Postman_collection-white?style=flat&logo=postman)](/tests/postman-collection/linx-auth-request-collection.json)
 
 To use the Linx Authentication service:
 
