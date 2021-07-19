@@ -1,77 +1,22 @@
 # OAuth 2.0 token generator
 
-## Overview
+## Description
 
-When connecting to numerous of the 3rd-Party systems out there via REST API, authentication is typically done via the OAuth 2.0 flow. This involves a user authorizing a connected application to access protected resources. After this, the server-side application generates and stores access tokens in a datasource which are then retrieved and used when submitting HTTP requests in order to authenticate them.
+Service to manange the generation, storage and retrieval of access tokens generated via the OAuth 2.0 Authorization Code Grant Flow for 3rd-party service providers built using Linx.
 
-This authentication setup and authorization process can become frustrating and hinder your progress with integrations.
-
-### Token generation service:
-This sample Linx Solution can be used to automatically:
-
-- copy Callback URL/Redirect URL
-- intiate the OAuth 2.0 flow between a Linx application cloud server (or local PC) and an authorization server
-- recieve the authentication code response
-- exchange the authorizaion code for access tokens
-- store the access tokens
-- retrieve and use the access tokens in requests
-- revoke access
-- refresh access tokens
+- Intiate the OAuth 2.0 flow between a Linx application cloud server (or local PC) and an authorization server
+- Recieve the authentication code response
+- Exchange the authorizaion code for access tokens
+- Encrypt and store access tokens
+- Fetch access token for request authentication.
 
 
-### Monitoring Dashboard:
-
-A [monitoring dashboard](index.html) has been built using HTML, CSS and the Bootstrap framework to provide an overall view of your connected applications as well as manage the authorization/revoking of access tokens. This dashboard connects to the Linx web service which can run locally or in the cloud. The dashboard acts as an interface between a user and the Linx Solution allowing an overall status view of your conections as well as offering the ability to trigger different stages of the OAuth 2.0 flow for specific 3rd-party platforms.
-
-With the dashboard, you are able to:
-- Monitor the status of all your connections
-    - Status
-    - Details of connected entity
-    - Expiry details of token
-- Initiate the authorization flow
-- Revoke access tokens
-- Copy access tokens
-
-
-
-The following 3rd-party platforms have already been setup with the Solution (you still need to add your app identifiers):
+The following 3rd-party service providers have already been setup with the sample:
 
 - [GitHub](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Microsot Graph](https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0&preserve-view=true)
 - [Salesforce](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_curl.htm)
 - [Google]()
-- [Xero]()
-- [Facebook]()
-
-
-## Additional resources:
-
-[![](https://img.shields.io/badge/Desktop_IDE-DOWNLOAD-download?style=flat&logoColor=white&logo=windows)](https://linx.software/get-started-today/)
-
-[![](https://img.shields.io/badge/OAuth_2.0-Framework-informational?style=flat&logoColor=white&logo=auth0)](https://oauth.net/2/)
-
-[![](https://img.shields.io/badge/Community-Connecting_to_MySQL_with_Linx-informational?style=flat&logoColor=white&logo=discourse&color=2bbc8a)](https://community.linx.software/community/t/quick-mysql-setup-and-test-on-linx/340/6?utm=gh)
-
-[![](https://img.shields.io/badge/Community-Linx_REST_API_overview-informational?style=flat&logoColor=white&logo=discourse&color=2bbc8a)](https://community.linx.software/community/t/resthost-guide-overview/458?utm=gh)
-
----
-
-## Dependencies
-
-### Pre-requisites
-
-[![](https://img.shields.io/badge/Linx_Designer-+v5.21.0.0-download?style=flat&logoColor=white&logo=windows)](https://linx.software/get-started-today/)
-
-[![](https://img.shields.io/badge/MySQL-Local_database-informational?style=flat&logoColor=white&logo=mysql)](https://www.mysql.com/)
-
-
-### Database
-
-The sample Solution utilizes a MqSQL database instance as a datasource to store and retrieve the neccessary access tokens.
-
-Run the [CREATE DATABASE script](mysql-setup-script.sql) on your MySQL instance (local or cloud based) and configure the connection details as $.Settings in the sample Linx Solution.
-
-
 
 ---
 
@@ -79,95 +24,112 @@ Run the [CREATE DATABASE script](mysql-setup-script.sql) on your MySQL instance 
 
 The Linx Solution contains a REST web service which, when deployed (or debugged locally), acts as an interface between the **resource owner** (user), **Linx Server** and a **3rd-Party authentication server**.
 
-The web service contains the below operations:
+The user/front facing REST service acts as an intermediary between the various independant Linx REST services acting as a security layer without exposing the other services to a user.
 
-
-The REST web service contains a number of generic operations which cater for all the 3rd-Party systems. When the connection flow is intiated, the systems all use the same operations. This is achieved by strucuturing the API based on the 3rd-Party system name as a path paramater.
-
-To demonstrate:
-
-
-The process is as follows:
-1. The Linx REST web service is deployed and started (or debugged locally).
-2. A request is made to the endpoint `/{system name}`
-
-
+For more technical details, take a look at the wiki.
 
 ---
 
-## Registering a connected application
+## Live Demo
 
-1. Register a new connected/oauth application on the chosen platform (GitHub, Facebook etc).
-1. Configure the **callback/redirect URL**.
+A live version of this project is hosted on a Linx Application Cloud Server.
 
-    Running locally:
+The official API documentation of the service is available [here](https://demo.api.linx.twenty57.net/linxauth/swagger).
 
-        Redirect URL: http://localhost:8080/oauthy/{system name}/oauth/token
+A Postman collection has also been included in the repo to test and use the service.
 
+To generate an access token as a new user:
 
-    Hosted on a Linx Cloud Server
-
-        Redirect URL: https://{your instance name}.api.linx.twenty57.net/oauthy/{system name}/oauth/token
-
-1. Save your registered app and generate a new `client secret`.
-1. Copy your client identifiers (`client id` and `client secret`).
-
-
-
----
-
-## Setting up the sample
-
-
-Configure the $.Settings of the Linx Solution with your app identifiers:
-1. Open the [provided sample](/Solution.lsoz) (`.lsoz`) in your Linx Designer.
-2. Configure the Solution's `$.Settings` with the client identifiers generated from the step above. So for example, if you are dealing with 'GitHub' add the `client id` and `client secret` to the $.Settings values of `$.Settings.GitHubClientId` and `$.Settings.GitHubClientSecret`.
-
-Configure the $.Settings of the Linx Solution with the following details:
-ServerHost: If running locally you can leave as is
-isLocalDevelopment: If running locally you can leave as is
-
-| Setting name | Description | Environment: |  local  |  cloud  
-| --- | --- | --- | --- | ---
-|LinxIsLocalDevEnv | Indicates if you are running the Solution locally or not | | True | False |
-|LinxServerHostname | If you are hosting on a Linx Cloud server, add your instance here, so for example if my server is `https://demo.linx.twenty57.net` then my instance name is "demo". | |  localhost | {instance name}
-
+  1. __Register as a new user__: Make a request to the `/users/register` endpoint, submitting your email address as the username, your unique Linx Designer License ID as the current password, and then submit a new password which will be used for authenticating users for token administration.
+  
+  2. __Register a new API key__: Register a new API Key which is used for encrypting access tokens and validating token generation and retrieval requests. Make a request to the `/keys/register` endpoint. This key is never stored and is only available when it is initially generated and sent to you.
+  
+  3. __Iniate the OAuth 2.0 flow__: Iniate the the authorization process which will result in a redirection to the chosen `system` authorization page. Intiate the authorization by making a request to the `/authorize` endpoint, submitting your API Key generated in _Step 2_ in the `Authorization` header. Include the service provider name i.e. "github","google" as the `system` parameter.
+  
+  4. __Authorize the Linx app__: Authorize the Linx Authentication Service on the service providers authorization portal.
+  
+  5. __Token generation__: The Linx Service will recieve the callback request and exchange tha authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. The unencrypted access token will be returned in the response. 
+  
+  5. __Token retrieval__: The retrieve the access token at a later stage from an external system, make a request to the `/token` endpoint.
+   
+     Submit your API Key generated in _Step 2_ in the `Authorization` header. 
+     
+     Include the system i.e. "github","google" as a query parameter. 
+     
+     A string containing the decrypted access token is then returned.
 
 ---
 
-## Using the sample
+## Installation
 
-The Solution is configured to automatically alter connection properties based on the `$.Settings.LinxIsLocalDevEnv` value.
+The below steps decscribe how to configure the sample to run on your own cloud server environment.
 
-If you have followed the above steps then no more configuration is needed and you can follow the below instructions to generate your access tokens:
+### Linx installation
+1. Install Linx Designer and register for a Linx cloud server. 
+2. If you do not have a database instance to use, register for a a MySQL cloud database with your Linx cloud server.
 
+### Setup the database:
+1. Run the provided setup script on your database instance.
+3. Update the below Setting values in the Linx Solution:
 
-1. Deploy and active the Linx Solution:
+    | Setting name | Description | Value
+    | --- | --- | --- 
+    |DatabasePassword | Password for your db instance | {your password} |
+    |DatabaseServer | If you are hosting on a Linx Cloud server, add your database instance name here, so for example  `demodb.linx.twenty57.net`  | {db instance name}
+
+A default 'admin' user is created with the password of 'root'.
+
+### Deploy the Solution:
+
+1. Deploy the sample Solution to your server instance.
+3. Update the below Setting values in the Linx Solution:
+
+    | Setting name | Description | Value
+    | --- | --- | --- 
+    |LinxIsLocalDevEnv | Indicates if you are running the Solution locally or not | False |
+    |LinxServerHostname | If you are hosting on a Linx Cloud server, add your instance here, so for example if my server is `https://demo.linx.twenty57.net` then my instance name is "demo".  | {instance name}
+    |LinxRootDrive | Root folder for file operations | f:/mydrive/token-gen/ |
     
 
-    **Locally**
+### Register a connected application:
 
-    1. In your Linx Designer, initialize the debugger on the REST web service.
-    2. Once the debugger has been initizled, start the debugger.
-    
+If hosting this as your own service, you will need to register an app on the various service providers sites and configure the Linx Solution with your app identifiers. 
 
-    **Cloud**
-    1. Deploy your Solution to your Linx application server.
-    2. Start the Solution.
-    3. Locate the REST web service and 'start' it.
+Add the redirection URL:
 
-3. Once the service is active, open the [monitoring dashboard](/index.html)
-4. Configure the server connection details (*You can skip this leave as is if you have not altered the setup environment*)
-5. Click on the 'Ping connection' icon to test the connection out, a result message will be displayed.
-6. If connection is successful, a list of the available 3rd-party systems and the authentication status will be displayed.
-7. To generate access tokens for your chosen 3rd-party system, select it the 3rd party system in the dashboard and hover over the **key** icon and you will see the 'Authorize' option appear.
-8. Click the **key** icon.
-9. A new tab will open, redirecting you to the chosen service provider's login page.
-4. Once logged in, grant the connected Linx application permission to access your account's resources.
-5. A redirection request will be made by the platform's authorization server to the Linx web service redirect url `{system name}/oauth/token` with an authorization code.
-6. Linx then makes a request back to the authorization server submitting client credentials and the authorization code.
-7. The generated token is then stored in the configured database.
-8. An authorization summary containing details of the connected entity are returned and displayed to the user.
-9. If you then refresh your dashboard or wait, the results of the connection will be displayed.
+When registering an application, you will be required to provide a 'Redirection' or 'Callback' url which is used to return the authorization code.
 
----
+To get this value without manually typing it out, make a request to the [CallbackURL operation](https://demo.api.linx.twenty57.net/linxauth/swagger/index.html?url=/linxauth/documentation/openapi.json#/OAuth%202.0%20flow/CallbackUrl).
+
+This will return a string built up of the callback url that you can then add to your app registration:
+```
+https://demo.api.linx.twenty57.net/linxauth/callback
+```
+
+Add this string as the 'redirect url' in your app registration.
+
+Generate client identifiers:
+
+1. Save your registered app, you will be presented with client identifiers (generate e a new `client secret` if you do not have one).
+2. Copy the Client Id and Client Secret values.
+
+### Generate config files:
+
+The service is configured to use service providers connection details stored as json objects on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the neccessary config file.
+
+1. Navigate to the 'Config' Project (Left menu > Projects > Config).
+2. Locate the function specific to your service provider, i.e. the function 'WriteConfifFileGithub' is configured specifically for writing out the connection details for the GitHub API. 
+3. Click __Run__, you will need to complete the missing fields such as the ClientId and ClientSecret. 
+4. After filling in the fields, __run__ the function.
+
+The service providers new connection information will be updated.
+
+
+ ## Contributing
+
+ If you would like to see a specific service provider added to the sample, contact support@linx.software.
+
+
+
+
+

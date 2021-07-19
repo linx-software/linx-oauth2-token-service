@@ -1,0 +1,245 @@
+openapi: 3.0.1
+info:
+  title: Linx OAuth 2.0 Authentication Service
+  version: '1'
+  description: '
+  
+  For any questions or issues, contact support@linx.software.
+  
+  View the project on GitHub.
+  
+  Follow the below steps to generate, store and retrieve access tokens.
+  
+  1. __Register user__: Register as a new user, using your email as your username, your unique Linx Designer License ID as your password, and then submit a new password which will be used for authenticating users for token administration.
+  
+  2. __Register API key__: Register a new API Key which is used for encrypting access tokens. This key is never stored and is only available when it is initially generated and sent to you.
+  
+  3. __Iniate OAuth 2.0 flow__: Iniate the the authorization process which will result in a redirection to the chosen `system` authorization page.
+  
+  4. __Authorize the app__: Authorize the Linx Authentication Service on the service providers authorization portal.
+  
+  5. __Token generation__: The Linx Service will recieve the callback request and exchange tha authorization code for an access token which will be returned to you in plain text. The access token is encrypted with your API Key and stored in the database.
+  
+  5. __Token retrieval__: The retrieve the access token at a later stage from an external system, make a request to the /token endpoint, submitting your API Key generated in _Step 2_ in the `Authorization` header. Include the system i.e. "github","google" as a query parameter. A string containing the access token is then returned.'
+  
+  contact:
+    name: Linx Support
+    email: support@linx.software
+    url: https://community.linx.software/community/
+paths:
+  /callback:
+    get:
+      operationId: Callback
+      summary: Recieve callback request.
+      description: '4. Recieve callback/redirection request with code and state parameters. This will automatically happen when the user has authorized the Linx app.'
+      tags: [OAuth 2.0 flow]
+      parameters: 
+                - in: query
+                  name: code  
+                  schema:
+                    type: string
+                - in: query
+                  name: state
+                  schema:
+                    type: string  
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:     
+                  linked_key:
+                    type: string
+                  system:
+                    type: string
+                  expires:
+                    type: string
+                  access_token:
+                    type: string
+  /callbackurl:
+    get:
+      operationId: CallbackUrl
+      summary: Return callback url to use.
+      tags: [OAuth 2.0 flow]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /authorize:
+    get:
+      operationId: InitateFlow
+      summary: Initate OAuth flow
+      description: '3. Initate the OAuth 2.0 flow between the chosen system and the Linx Authentication service. After successful authorization, a redirection call will be made to the callback url (4).'
+      security:
+      - ApiKeyAuth: []
+      tags: [OAuth 2.0 flow]
+      parameters: 
+                - in: query
+                  name: system  
+                  description: Name of service provider.
+                  required: true
+                  schema:
+                    type: string
+                  example: github
+                - in: query
+                  name: redirectRequired  
+                  description: Indicates if the response must trigger a redirection or just return the redirection url as a string.
+                  required: false
+                  schema:
+                    type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                
+        '301':
+          description: Redirection to authorization URL
+          headers:
+            Location:
+              schema:
+                type: string
+  /token:
+    get:
+      operationId: RetrieveToken
+      summary: Retrieve and decrypt access token.
+      description: '5. Retrieve the access token generated in the callback operation (4).'
+      security:
+      - ApiKeyAuth: []
+      tags: [Token managment]
+      parameters: 
+                - in: query
+                  name: system   
+                  description: Name of service provider. 
+                  required: true
+                  schema:
+                    type: string
+      responses:
+        '200':
+          description: Decrypted access token string
+          content:
+            application/json:
+              schema:
+                type: string
+  /users/register:
+    put:
+      operationId: UserRegister
+      summary: Updates a users credentials.
+      description: '1. Register yourself as a new user'
+      tags: [User management]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '201':
+          description: New user registered.
+          content:
+            application/json:
+              schema:
+                type: string 
+        '400':
+           description: Error.
+           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /keys/register:
+    post:
+      operationId: KeyRegister
+      summary: Create and link a new Api Key to a user.
+      description: '2. Register a API Key to link access token(s) to.'
+      tags: [User management]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyRegistrationBody'
+      responses:
+        '201':
+          description: New key registered.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:        
+                  name:
+                    type: string
+                  expires:
+                    type: string
+                  apiKey:
+                    type: string
+
+        '400':
+           description: Error.
+           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keys/remove:
+    delete:
+      operationId: KeyDelete
+      summary: De-link and delete api key.
+      security:
+      - ApiKeyAuth: []
+      tags: [User management]
+      responses:
+        '200':
+          description: Key removed.
+        '400':
+           description: Error.
+           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        summary:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    ApiKeyRegistrationBody:
+      type: object
+      properties:
+        name:
+          type: string
+        expires:
+          type: integer
+        username:
+          type: string
+        password:
+          type: string
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        newPassword:
+          type: string
+    ApiKey:
+      type: object
+      properties:
+        apiKey:
+          type: string
+
+  securitySchemes:
+      ApiKeyAuth: 
+          type: apiKey
+          in: header 
+          name: Authorization  
