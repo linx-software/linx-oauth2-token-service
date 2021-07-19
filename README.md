@@ -37,7 +37,7 @@ A live version of this project is hosted on a publically accessable Linx  cloud 
 
 The official API documentation of the service is available [here](https://demo.api.linx.twenty57.net/linxauth/swagger).
 
-A [Postman collection](tests/linx-auth-request-collection.json) is included in this repo to test and use the service. This collection includes test scripts which will use and store the relevant values returned from the Linx service as local Postman collection variables.
+A [Postman collection](/tests/postman-collection/linx-auth-request-collection.json) is included in this repo to test and use the service. This collection includes test scripts which will use and store the relevant values returned from the Linx service as local Postman collection variables.
 
 To use the Linx Authentication service:
 
