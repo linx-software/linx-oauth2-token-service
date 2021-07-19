@@ -1,0 +1,374 @@
+{
+	"info": {
+		"_postman_id": "06ceb1d1-e226-4225-8773-e175d4406fb1",
+		"name": "Linx OAuth 2.0 authentication service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RegisterUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = JSON.parse(request.data);\r",
+							"pm.collectionVariables.set(\"user_password\", body.newPassword);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{user_username}}\",\r\n  \"password\": \"{{user_password}}\",\r\n  \"newPassword\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/users/register",
+					"host": [
+						"{{linx_api_server}}{{main_auth_svc_path}}"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InitiateFlow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{user_api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/authorize?system=github",
+					"host": [
+						"{{linx_api_server}}{{main_auth_svc_path}}"
+					],
+					"path": [
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "system",
+							"value": "github"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FetchToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"access_token\", res);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{user_api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/token?system={{default_system_name}}",
+					"host": [
+						"{{linx_api_server}}{{main_auth_svc_path}}"
+					],
+					"path": [
+						"token"
+					],
+					"query": [
+						{
+							"key": "system",
+							"value": "{{default_system_name}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCallbackUrl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/callbackurl",
+					"host": [
+						"{{linx_api_server}}{{main_auth_svc_path}}"
+					],
+					"path": [
+						"callbackurl"
+					],
+					"query": [
+						{
+							"key": "redirectRequired",
+							"value": "false",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetGithubUserTest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/user",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetGoogleUserTestRequest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ya29.a0ARrdaM_uvcBwb5IeM7rUkqIyWt6yyuAzfH72Fq-KXzS9gJwi_cNIQekSXd5vk94k_e-GlNzpnP-Q4G7WhasYiD-ITJO4_GX9gvjn12MaNJmpykJQ4JZpJKGrNzjtBKcYZq1IIU4lFIEEMBFpdPVZVBDJlAny",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/drive/v3/about?fields=user",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"drive",
+						"v3",
+						"about"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterApiKey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"user_api_key\", res.apiKey);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"My First Api Key\",\r\n  \"expires\": 0,\r\n  \"username\": \"{{user_username}}\",\r\n  \"password\": \"{{user_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/keys/register",
+					"host": [
+						"{{linx_api_server}}{{main_auth_svc_path}}"
+					],
+					"path": [
+						"keys",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "default_system_name",
+			"value": "github"
+		},
+		{
+			"key": "user_username",
+			"value": "admin"
+		},
+		{
+			"key": "user_password",
+			"value": "root"
+		},
+		{
+			"key": "user_auth_svc_path",
+			"value": "/authsvc"
+		},
+		{
+			"key": "token_svc_path",
+			"value": "/tokensvc"
+		},
+		{
+			"key": "oauth_svc_path",
+			"value": "/oauthy"
+		},
+		{
+			"key": "linx_internal_api_key",
+			"value": "admin"
+		},
+		{
+			"key": "user_api_key",
+			"value": "O23tS/mAWZesCByTgg/+XdK/9zzXfZ5C4D8UFUlQ7KU="
+		},
+		{
+			"key": "main_auth_svc_path",
+			"value": "/linxauth"
+		},
+		{
+			"key": "variable_key",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}
