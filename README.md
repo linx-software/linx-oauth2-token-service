@@ -37,7 +37,7 @@ For more technical details, take a look at the [wiki](https://github.com/linx-so
 
 This sample is deployed and hosted on a publicly accessible Linx cloud server. 
 
-[![](https://img.shields.io/badge/API_reference-white?style=flat&logo=swagger)](https://demo.api.linx.twenty57.net/linxauth/swagger) [![Made withPostman](https://img.shields.io/badge/Postman_collection-white?style=flat&logo=postman)](/tests/postman-collection/linx-auth-request-collection.json)
+[![](https://img.shields.io/badge/API_reference-white?style=flat-square&logo=swagger&color=43CA61&labelColor=white&logoColor=43CA61)](https://demo.api.linx.twenty57.net/linxauth/swagger) [![Made withPostman](https://img.shields.io/badge/Postman_collection-white?style=flat-square&logo=postman&color=EF5B25&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
 
 To use the Linx Authentication service:
 
