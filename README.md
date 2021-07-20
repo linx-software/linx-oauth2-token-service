@@ -188,7 +188,7 @@ If you would like to see a specific service provider added to the sample, create
 ---
 ## Missing pieces and roadmap
 
-Currently, all the interaction with the service is achieved using a request platform like Linx or Postman which required you to manually execute the required steps. 
+Currently, all the interaction with the service is achieved using a request platform like Linx or Postman which requires you to manually execute the required steps. 
 
 The plan for this project is to hopefully implement a front-end with JavaScript or React which will allow you to more easily manage tokens from a front-end portal, without having to set up web service calls to manage user registration and token generation.
 

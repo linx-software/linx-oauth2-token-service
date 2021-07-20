@@ -36,7 +36,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"{{user_username}}\",\r\n  \"password\": \"{{user_password}}\",\r\n  \"newPassword\": \"admin\"\r\n}",
+					"raw": "{\r\n  \"username\": \"{{user_username}}\",\r\n  \"password\": \"{{user_password}}\",\r\n  \"newPassword\": \"root\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -44,11 +44,17 @@
 					}
 				},
 				"url": {
-					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/users/register",
+					"raw": "https://{{linx_instance_name}}.api.linx.twenty57.net/linxauth/users/register",
+					"protocol": "https",
 					"host": [
-						"{{linx_api_server}}{{main_auth_svc_path}}"
+						"{{linx_instance_name}}",
+						"api",
+						"linx",
+						"twenty57",
+						"net"
 					],
 					"path": [
+						"linxauth",
 						"users",
 						"register"
 					]
@@ -88,11 +94,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/authorize?system=github",
+					"raw": "https://{{linx_instance_name}}.api.linx.twenty57.net/linxauth/authorize?system=github",
+					"protocol": "https",
 					"host": [
-						"{{linx_api_server}}{{main_auth_svc_path}}"
+						"{{linx_instance_name}}",
+						"api",
+						"linx",
+						"twenty57",
+						"net"
 					],
 					"path": [
+						"linxauth",
 						"authorize"
 					],
 					"query": [
@@ -138,17 +150,23 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/token?system={{default_system_name}}",
+					"raw": "https://{{linx_instance_name}}.api.linx.twenty57.net/linxauth/token?system=github",
+					"protocol": "https",
 					"host": [
-						"{{linx_api_server}}{{main_auth_svc_path}}"
+						"{{linx_instance_name}}",
+						"api",
+						"linx",
+						"twenty57",
+						"net"
 					],
 					"path": [
+						"linxauth",
 						"token"
 					],
 					"query": [
 						{
 							"key": "system",
-							"value": "{{default_system_name}}"
+							"value": "github"
 						}
 					]
 				}
@@ -161,11 +179,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{linx_api_server}}{{main_auth_svc_path}}/callbackurl",
+					"raw": "https://{{linx_instance_name}}.api.linx.twenty57.net/linxauth/callbackurl",
+					"protocol": "https",
 					"host": [
-						"{{linx_api_server}}{{main_auth_svc_path}}"
+						"{{linx_instance_name}}",
+						"api",
+						"linx",
+						"twenty57",
+						"net"
 					],
 					"path": [
+						"linxauth",
 						"callbackurl"
 					],
 					"query": [
@@ -339,18 +363,6 @@
 			"value": "root"
 		},
 		{
-			"key": "user_auth_svc_path",
-			"value": "/authsvc"
-		},
-		{
-			"key": "token_svc_path",
-			"value": "/tokensvc"
-		},
-		{
-			"key": "oauth_svc_path",
-			"value": "/oauthy"
-		},
-		{
 			"key": "linx_internal_api_key",
 			"value": "admin"
 		},
@@ -359,15 +371,16 @@
 			"value": "O23tS/mAWZesCByTgg/+XdK/9zzXfZ5C4D8UFUlQ7KU="
 		},
 		{
-			"key": "main_auth_svc_path",
-			"value": "/linxauth"
-		},
-		{
-			"key": "variable_key",
+			"key": "access_token",
 			"value": ""
 		},
 		{
-			"key": "access_token",
+			"key": "linx_api_server",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "linx_instance_name",
 			"value": ""
 		}
 	]
