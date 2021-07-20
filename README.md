@@ -6,7 +6,7 @@ Server-side [Linx](https://linx.software/) application to manage the secure gene
 
 - Create API Keys for users.
 - Link API Keys to access tokens.
-- Intiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
+- Initiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
 - Encrypt and store access tokens.
 - Externally retrieve access token for external request usage.
 
@@ -14,9 +14,16 @@ Server-side [Linx](https://linx.software/) application to manage the secure gene
 The following 3rd-party service providers have already been setup with the Linx Solution:
 
 - GitHub
-- Microsot Graph
+- Microsoft Graph
 - Salesforce
 - Google
+
+### Background and motivation
+When building integrations or apps which interact with external service providers such as Google, GitHub or Microsoft via REST API, apps require 'access tokens' to authenticate requests made to the service providers API.
+
+Setting up this authorization process can become frustrating and hinder your progress with integrations especially when you want to get started on building out your concepts. Furthermore, when developing integrations in teams, many of the resource access needs to be shared which becomes difficult with manual user authorization.
+
+The aim of this project is to create a shared service that handles the generation and storage of access tokens for the multiple systems that I integrate with on a day-to-day basis in my work with Linx.  
 
 ---
 
@@ -31,20 +38,20 @@ The system design consists of 4 separate REST web services hosted on a single se
 
 Each of these sub-services have been designed to handle separate related functionality. This was done so for both maintenance and security.
 
-The idea here is that these sub-services can be further isolated and deployed to different servers, limiting the risk of complete breach. By separating the encryption keys and api keys, this adds a further layer of security, even though any encryption uses runtime values that only the user possesses.
+The idea here is that these sub-services can be further isolated and deployed to different servers, limiting the risk of complete breach. By separating the encryption keys and API keys, this adds a further layer of security, even though any encryption uses runtime values that only the user possesses.
 
 The ‘Public API’ is responsible for retrieving the different credentials from the separate data persistence layers and using this to decrypt the relevant tokens. 
 
-By ‘isolating’ the services into functional groups and separating data persistence layer, these services can be maintained and extended with much more ease as well as allowing greater control in terms of access restriction on the ‘Public API’ layer.
+By isolating the services into functional groups and separating data persistence layers, these services can be maintained and extended with much more ease. The isolation provides added control in terms of restricting access from the external world by buffering the systems with the ‘Public API’ layer.
 
-
+For more technical details of the service architecture and design, take a look at the [wiki]().
 
 
 ---
 
 ## Installation
 
-The below steps decscribe how to host this Solution on your own Linx cloud server environment.
+The below steps describe how to host this Solution on your own Linx cloud server environment.
 
 ### Linx installation
 1. Register for a Linx Designer license and download [here](https://linx.software/get-started-and-download-linx-a-low-code-platform-for-developers/).
@@ -68,7 +75,7 @@ The Solution uses a MySQL database to store user related credentials.
    For example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
  3. On the Solutions services page, __start__ all of the services in the Solution.   
 
-### Register a new app with the Servive provider
+### Register a new app with the service provider
 
 1. Login in to the chosen service provider's developer console (i.e. Github).
 2. Register a new connected/oauth application.
@@ -76,7 +83,7 @@ The Solution uses a MySQL database to store user related credentials.
    
    To get this value without manually typing it out, make a request to the [CallbackURL operation](https://demo.api.linx.twenty57.net/linxauth/swagger/index.html?url=/linxauth/documentation/openapi.json#/OAuth%202.0%20flow/CallbackUrl).
 
-   This will return a string built up of the callback url that you can then add to your app registration:
+   This will return a string built up of the callback URL that you can then add to your app registration:
    ```
    https://dev1.api.linx.twenty57.net/linxauth/callback
    ```
@@ -86,9 +93,11 @@ The Solution uses a MySQL database to store user related credentials.
 4. Save your app.
 1. Copy the Client Id and Client Secret (generate a new one) values.
 
+For more technical details of the different service providers and considerations, take a look at the [wiki]().
+
 ### Update Linx Solution's config
 
-The Linx Solution is configured to use service provider's connection details which are stored as json objects on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the neccessary config file.  
+The Linx Solution is configured to use service provider's connection details which are stored as JSON objects on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the necessary config file.  
 
 1. Navigate to the __Config__ Project (Left menu > Projects > Config).
 2. Locate the function specific to your service provider, i.e. the function _WriteConfigFileGithub_ is configured specifically for writing out the connection details for the GitHub API. 
@@ -107,6 +116,9 @@ Once deployed, this service can be used by you an others from a number of differ
 - Postman
 - Linx Designer 
 
+For more technical details of the different operations involved, take a look at the [wiki]().
+
+
 ### Using with Postman
 
 A Postman collection has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
@@ -115,15 +127,15 @@ A Postman collection has been created to automate the usage and testing of the a
 
 
  1. Configure Postman collection: Open the provided Postman request collection and edit the collection variables to reflect your server details. The default 'admin' user credentials already exist.
-1. Register as a new user: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token adminstration operations. 
+1. Register as a new user: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token administration operations. 
    
  
 2. Register a new API key: Execute the __RegisterApiKey__ request from the collection. Provide a name for your API key in the requestBody.
   
-3. Initiate the OAuth 2.0 flow: To initate the the authorization process and recieve the authorization url. Execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` parameter.
-4. Authorize the Linx app: Copy the response from the previous request and navigate to the url in a browser. You will be prompted to authorize the Linx authentication service access.
+3. Initiate the OAuth 2.0 flow: To initiate the the authorization process and receive the authorization url. Execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` parameter.
+4. Authorize the Linx app: Copy the response from the previous request and navigate to the URL in a browser. You will be prompted to authorize the Linx authentication service access to your identity.
   
-5. Token generation: The Linx Service will recieve the callback request and exchange tha authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. 
+5. Token generation: The Linx Service will receive the callback request and exchange the authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. 
   
 5. Token retrieval: To retrieve an access token for use when making request to the service provider's API, execute the __FetchToken__ request in the Postman collection. Edit the `system` query parameter to your chosen service provider and execute the request.
       
@@ -158,7 +170,7 @@ A Linx Solution has been developed to automate the usage and testing of the auth
    Copy the 'apiKey' value from the debug output.
 
    Open the Solution's Settings and past the copied value into the'ApiKey' setting value.
-3. Initate the OAuth flow: Open the _TestInitiateFlow_ function in your Linx Designer and Add a Breakpoint (Right click - Add breakpoint) to the InitateFlow function call. Next, debug the _TestInitiateFlow_ function and STEP OVER the InitateFlow function call. Copy the value from the Debug Values panel and navigate to it in a browser.
+3. Initiate the OAuth flow: Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. Next, debug the _TestInitiateFlow_ function and STEP OVER the InitateFlow function call. Copy the value from the Debug Values panel and navigate to it in a browser.
 4. After successful authorization, go back to the Linx Designer and debug the TestFetchToken function, adding a breakpoint and stepping over the FetchToken function call like before.
 5. Copy the value of the access token returned from the function call.
 6. To test your access token, debug the TestAccessTokenGithub function, pasting the access token in the input parameter.
@@ -169,7 +181,7 @@ A Linx Solution has been developed to automate the usage and testing of the auth
 ## Customizing
 This sample has been built to handle the OAuth 2.0 authorization flow as generically as possible, however, slight differences occur in the implementation by the different service providers. 
 
-In some cases, adding a new service provider is as easy as running the generic config file writing function and providing it with the correct api connection info. In others, certain nuances in require additional investigation and development.
+In some cases, adding a new service provider is as easy as running the generic config file writing function and providing it with the correct API connection info. In others, certain nuances in require additional investigation and development.
 
 If you would like to see a specific service provider added to the sample, create an issue in this repo or send your request to support@linx.software.
 
