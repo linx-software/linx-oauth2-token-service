@@ -314,21 +314,6 @@
 			"response": []
 		}
 	],
-	"auth": {
-		"type": "basic",
-		"basic": [
-			{
-				"key": "password",
-				"value": "{{password}}",
-				"type": "string"
-			},
-			{
-				"key": "username",
-				"value": "{{username}}",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -368,7 +353,7 @@
 		},
 		{
 			"key": "user_api_key",
-			"value": "O23tS/mAWZesCByTgg/+XdK/9zzXfZ5C4D8UFUlQ7KU="
+			"value": ""
 		},
 		{
 			"key": "access_token",
