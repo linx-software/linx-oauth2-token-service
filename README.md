@@ -6,11 +6,9 @@ Server-side authentication service to manage the secure generation, storage and 
 
 - Create API Keys
 - Link API Keys to access tokens.
-- Intiate the OAuth 2.0 authorization flow.
-- Recieve the authentication code response.
-- Exchange the authorizaion code for access tokens
+- Intiate the OAuth 2.0 authorization flow and generate access tokens.
 - Encrypt and store access tokens.
-- Fetch access token for request authentication.
+- Externally retrieve access token for external request usage.
 
 
 The following 3rd-party service providers have already been setup with the Linx Solution:
@@ -138,7 +136,7 @@ A Postman collection has been created to automate the usage and testing of the a
 
 A Linx Solution has been developed to automate the usage and testing of the authentication service. This is a very basic solution which does not store your API Key automatically. You will therefore need to follow the below manual steps to register as a user and generate access tokens.
 
-[![](https://img.shields.io/badge/-Testing_Solution-gray.svg?style=flat-square&labelColor=2EB398&color=white&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjIsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxNTBweCIgaGVpZ2h0PSIxNTBweCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1MCAxNTAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGRlZnM+DQo8L2RlZnM+DQo8cmVjdCBmaWxsPSIjMkVCMzk4IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIvPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTY2LjE0NywxMDYuMDM4aDYzLjIxN3YyNi41NDhINjYuMTQ3Yy0zMi44NywwLTQ1LjUxMi0xMy42OTctNDUuNTEyLTQxLjA4OVYxNy40MTRoMzIuODd2NzQuMDgzDQoJQzUzLjUwNiw5Ni4yMTgsNTYuMDU1LDEwNi4wMzgsNjYuMTQ3LDEwNi4wMzh6Ii8+DQo8cGF0aCBvcGFjaXR5PSIwLjMiIGZpbGw9IiM0RDRENEQiIGQ9Ik02Ni4xNDcsMTA2LjAzOGMtMTAuMDkzLDAtMTIuNjQyLTkuODItMTIuNjQyLTE0LjU0MXYtMC4yNzgNCgljMCwyOS4zODItMS45MTcsNDEuMzY3LDExLjE4Niw0MS4zNjdoNjQuNjczdi0yNi41NDhINjYuMTQ3eiIvPg0KPC9zdmc+DQo=)](/tests/linx-automated-testing/)
+[![Linx Automated Tests](https://img.shields.io/badge/-Automated_tests-gray.svg?style=flat-square&labelColor=2EB398&color=white&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjIsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxNTBweCIgaGVpZ2h0PSIxNTBweCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1MCAxNTAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGRlZnM+DQo8L2RlZnM+DQo8cmVjdCBmaWxsPSIjMkVCMzk4IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIvPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTY2LjE0NywxMDYuMDM4aDYzLjIxN3YyNi41NDhINjYuMTQ3Yy0zMi44NywwLTQ1LjUxMi0xMy42OTctNDUuNTEyLTQxLjA4OVYxNy40MTRoMzIuODd2NzQuMDgzDQoJQzUzLjUwNiw5Ni4yMTgsNTYuMDU1LDEwNi4wMzgsNjYuMTQ3LDEwNi4wMzh6Ii8+DQo8cGF0aCBvcGFjaXR5PSIwLjMiIGZpbGw9IiM0RDRENEQiIGQ9Ik02Ni4xNDcsMTA2LjAzOGMtMTAuMDkzLDAtMTIuNjQyLTkuODItMTIuNjQyLTE0LjU0MXYtMC4yNzgNCgljMCwyOS4zODItMS45MTcsNDEuMzY3LDExLjE4Niw0MS4zNjdoNjQuNjczdi0yNi41NDhINjYuMTQ3eiIvPg0KPC9zdmc+DQo=)](/tests/linx-automated-testing/)
 
 
 1. Open up the Linx 'automated testing' Solution in your Linx Designer.
@@ -167,16 +165,11 @@ A Linx Solution has been developed to automate the usage and testing of the auth
 7. You should see the details of the authenticated user being returned from the HTTP request.
 
 ## Customizing
-This sample has been built to handle the oauth 2.0 authorization flow as generically as possible, however, slight differences occur in the implementation by the different service providers. 
+This sample has been built to handle the OAuth 2.0 authorization flow as generically as possible, however, slight differences occur in the implementation by the different service providers. 
 
 In some cases, adding a new service provider is as easy as running the generic config file writing function and providing it with the correct api connection info. In others, certain nuances in require additional investigation and development.
 
-
- ## Contributing
-
- 
-
- If you would like to see a specific service provider added to the sample, contact support@linx.software.
+If you would like to see a specific service provider added to the sample, create an issue in this repo or send your request to support@linx.software.
 
 
 ## License
