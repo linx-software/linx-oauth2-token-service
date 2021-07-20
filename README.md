@@ -1,10 +1,11 @@
-# OAuth 2.0 token generator
+# OAuth 2.0 Token Authentication Service
 
 ## Description
 
-Generic authentication service for the generation, storage and retrieval of access tokens generated via the OAuth 2.0 flow for 3rd-party service providers built using the low-code platform Linx.
+Server-side authentication service to manage the secure generation, storage and retrieval of access tokens. 
 
-
+- Create API Keys
+- Link API Keys to access tokens.
 - Intiate the OAuth 2.0 authorization flow.
 - Recieve the authentication code response.
 - Exchange the authorizaion code for access tokens
@@ -21,7 +22,7 @@ The following 3rd-party service providers have already been setup with the Linx 
 
 ---
 
-## How it works?
+## System architecture
 
 The Linx Solution contains a REST web service which acts as an interface between the **resource owner** (user), **Linx Server** and a 3rd-Party service provider's **authentication server**.
 
@@ -39,7 +40,7 @@ The ‘Public API’ is responsible for retrieving the different credentials fro
 By ‘isolating’ the services into functional groups and separating data persistence layer, these services can be maintained and extended with much more ease as well as allowing greater control in terms of access restriction on the ‘Public API’ layer.
 
 
-For more technical details, take a look at the [wiki](https://github.com/linx-software/oauth2-token-generator/wiki).
+
 
 ---
 
@@ -56,27 +57,20 @@ The below steps decscribe how to host this Solution on your own Linx cloud serve
 The Solution uses a MySQL database to store user related credentials.
 1. Run the provided setup script on your database instance.
 3. Update the below Setting values in the Linx Solution:
-
-    | Setting name | Description | Value
-    | --- | --- | --- 
-    |DatabasePassword | Password for your db instance | {your password} |
-    |DatabaseServer | If you are hosting on a Linx Cloud server, add your database instance name here, so for example  `demodb.linx.twenty57.net`  | {db instance name}
+- DatabasePassword: Password for your db instance
+- DatabaseServer: If you are hosting on a Linx Cloud server, add your database instance name here, so for example `dev1db.linx.twenty57.net`.
 
 
 
 ### Solution deployment
 
 1. Deploy the sample Solution to your server instance.
-3. Update the below Setting values of the Solution on the server:
+3. Open the Solution's Settings and update the 'LinxServerHostname' value to your server instance name -  If you are hosting on a Linx Cloud server, add your instance here.
 
-    | Setting name | Description | Value
-    | --- | --- | --- 
-    |LinxIsLocalDevEnv | Indicates if you are running the Solution locally or not | False |
-    |LinxServerHostname | If you are hosting on a Linx Cloud server, add your instance here, so for example if my server is `https://demo.linx.twenty57.net` then my instance name is "demo".  | {instance name}
-    |LinxRootDrive | Root folder for file operations | f:/mydrive/token-gen/ |
+   For example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
  3. On the Solutions services page, __start__ all of the services in the Solution.   
 
-### Register a connected application
+### Register a new app with the Servive provider
 
 1. Login in to the chosen service providers developer console.
 2. Register a new connected/oauth application.
@@ -86,7 +80,7 @@ The Solution uses a MySQL database to store user related credentials.
 
    This will return a string built up of the callback url that you can then add to your app registration:
    ```
-   https://demo.api.linx.twenty57.net/linxauth/callback
+   https://dev1.api.linx.twenty57.net/linxauth/callback
    ```
 
    Add this string as the 'redirect url' in your app registration.
@@ -94,9 +88,9 @@ The Solution uses a MySQL database to store user related credentials.
 4. Save your app.
 1. Copy the Client Id and Client Secret (generate a new one) values.
 
-### Update Linx Solution config
+### Update Linx Solution's config
 
-The service is configured to use service providers connection details stored as json objects on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the neccessary config file. 
+The Linx Solution is configured to use service provider's connection details which are stored as json objects on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the neccessary config file.  
 
 1. Navigate to the __Config__ Project (Left menu > Projects > Config).
 2. Locate the function specific to your service provider, i.e. the function _WriteConfigFileGithub_ is configured specifically for writing out the connection details for the GitHub API. 
@@ -105,17 +99,19 @@ The service is configured to use service providers connection details stored as 
 
 The service providers new connection information will be updated and written to a file on the server. 
 
-The Solution setup is now complete.
+The setup is now complete 🚀
 
 ---
 
 ## Managing users and API Keys
 
-To use the Linx Authentication service (with Linx test Solution):
+Once deployed, this service can be used by you an others from a number of different external systems. Listed below are the usage steps involved in using the sample on your cloud instance with:
+- Postman
+- Linx Designer 
 
+### Using with Postman
 
-
-To use the Linx Authentication service (with Postman):
+A Postman collection has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
 
 [![Made with Postman](https://img.shields.io/badge/Postman_tests-white?style=flat-square&logo=postman&color=EF5B25&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
 
@@ -135,13 +131,54 @@ To use the Linx Authentication service (with Postman):
       
    A string containing the decrypted access token is then returned.
 
+---
 
-[![API documentation](https://img.shields.io/badge/API_reference-white?style=flat-square&logo=swagger&color=43CA61&labelColor=white&logoColor=43CA61)](https://demo.api.linx.twenty57.net/linxauth/swagger) 
+### Usage with Linx
+
+
+A Linx Solution has been developed to automate the usage and testing of the authentication service. This is a very basic solution which does not store your API Key automatically. You will therefore need to follow the below manual steps to register as a user and generate access tokens.
+
+[![](https://img.shields.io/badge/-Testing_Solution-gray.svg?style=flat-square&labelColor=2EB398&color=white&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjIsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxNTBweCIgaGVpZ2h0PSIxNTBweCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1MCAxNTAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGRlZnM+DQo8L2RlZnM+DQo8cmVjdCBmaWxsPSIjMkVCMzk4IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIvPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTY2LjE0NywxMDYuMDM4aDYzLjIxN3YyNi41NDhINjYuMTQ3Yy0zMi44NywwLTQ1LjUxMi0xMy42OTctNDUuNTEyLTQxLjA4OVYxNy40MTRoMzIuODd2NzQuMDgzDQoJQzUzLjUwNiw5Ni4yMTgsNTYuMDU1LDEwNi4wMzgsNjYuMTQ3LDEwNi4wMzh6Ii8+DQo8cGF0aCBvcGFjaXR5PSIwLjMiIGZpbGw9IiM0RDRENEQiIGQ9Ik02Ni4xNDcsMTA2LjAzOGMtMTAuMDkzLDAtMTIuNjQyLTkuODItMTIuNjQyLTE0LjU0MXYtMC4yNzgNCgljMCwyOS4zODItMS45MTcsNDEuMzY3LDExLjE4Niw0MS4zNjdoNjQuNjczdi0yNi41NDhINjYuMTQ3eiIvPg0KPC9zdmc+DQo=)](/tests/linx-automated-testing/)
+
+
+1. Open up the Linx 'automated testing' Solution in your Linx Designer.
+2. Update solution settings: Update the Solution's setting 'LinxServerHostname' to be the name of your Linx instance. So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
+3. Register a new API key: Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
+   ```
+   Function started.
+   Function result:
+   {
+   "ApiKeyData": {
+      "name": "Test Key",
+      "expires": "2021-10-20 10:43:41.0000000",
+      "apiKey": "YSh+j4osdkgISHXNSJxh5MqYfMUSJiT7XSeU+xoeA="
+   }
+   }
+   Function finished.
+
+   ```
+   Copy the 'apiKey' value from the debug output.
+
+   Open the Solution's Settings and past the copied value into the'ApiKey' setting value.
+3. Initate the OAuth flow: Open the _TestInitiateFlow_ function in your Linx Designer and Add a Breakpoint (Right click - Add breakpoint) to the InitateFlow function call. Next, debug the _TestInitiateFlow_ function and STEP OVER the InitateFlow function call. Copy the value from the Debug Values panel and navigate to it in a browser.
+4. After successful authorization, go back to the Linx Designer and debug the TestFetchToken function, adding a breakpoint and stepping over the FetchToken function call like before.
+5. Copy the value of the access token returned from the function call.
+6. To test your access token, debug the TestAccessTokenGithub function, pasting the access token in the input parameter.
+7. You should see the details of the authenticated user being returned from the HTTP request.
+
+## Customizing
+This sample has been built to handle the oauth 2.0 authorization flow as generically as possible, however, slight differences occur in the implementation by the different service providers. 
+
+In some cases, adding a new service provider is as easy as running the generic config file writing function and providing it with the correct api connection info. In others, certain nuances in require additional investigation and development.
+
+
  ## Contributing
+
+ 
 
  If you would like to see a specific service provider added to the sample, contact support@linx.software.
 
 
+## License
 
-
-
+[MIT](https://github.com/linx-software/template-repo/blob/main/LICENSE.txt)
