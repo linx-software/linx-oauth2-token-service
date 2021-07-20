@@ -28,7 +28,7 @@ The aim of this project is to create a shared service that handles the generatio
 
 ---
 
-## System architecture
+### System architecture
 
 The Linx Solution contains a REST web service which acts as an interface between the **resource owner** (user), **Linx Server** and a 3rd-Party service provider's **authentication server**.
 

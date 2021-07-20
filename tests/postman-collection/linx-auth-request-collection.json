@@ -360,11 +360,6 @@
 			"value": ""
 		},
 		{
-			"key": "linx_api_server",
-			"value": "",
-			"disabled": true
-		},
-		{
 			"key": "linx_instance_name",
 			"value": ""
 		}
