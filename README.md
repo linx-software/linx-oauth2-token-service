@@ -34,7 +34,7 @@ The Linx Solution contains a REST web service which acts as an interface between
 ![System architecture](/img/system-architecture-main.png)
 
 
-The system design consists of 4 separate REST web services hosted on a single server. There is a public facing API that acts as the intermediary between a user and the separate sub-services which persist data in isolated environments.
+The system design consists of 4 separate REST web services hosted on a single Linx cloud server. There is a public facing API that acts as the intermediary between a user and the separate sub-services which persist data in a cloud database.
 
 Each of these sub-services have been designed to handle separate related functionality. This was done so for both maintenance and security.
 
@@ -152,7 +152,7 @@ A Linx Solution has been developed to automate the usage and testing of the auth
 
 
 1. Open up the Linx 'automated testing' Solution in your Linx Designer.
-2. Update solution settings: Update the Solution's setting 'LinxServerHostname' to be the name of your Linx instance. So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
+2. Edit the Solution's setting 'LinxServerHostname' to be the name of your Linx instance. So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
 3. Register a new API key: Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
    ```
    Function started.
