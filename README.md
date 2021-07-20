@@ -125,16 +125,18 @@ For more technical details of the different operations involved, take a look at 
 
 ### Using with Postman
 
-A Postman collection has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
-
-[![Postman test collection](https://img.shields.io/badge/Postman_tests-white?style=flat-square&logo=postman&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
+A [Postman collection](/tests/postman-collection/linx-auth-request-collection.json) has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
 
 
- 1. Configure Postman collection: Open the provided Postman request collection and edit the collection variables to reflect your server details. The default 'admin' user credentials already exist.
+
+
+ 1. Configure Postman collection: Open the provided [Postman collection](/tests/postman-collection/linx-auth-request-collection.json) and edit the collection variables to reflect your server details. The default 'admin' user credentials are already completed for you.
 1. Register as a new user: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token administration operations. 
    
  
 2. Register a new API key: Execute the __RegisterApiKey__ request from the collection. Provide a name for your API key in the requestBody.
+
+   A response containing the API Key will be returned as stored in the Postman collection variable.
   
 3. Initiate the OAuth 2.0 flow: To initiate the the authorization process and receive the authorization url, execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` query parameter.
 4. Authorize the Linx app: Copy the response from the previous request and navigate to the URL in a browser. You will be prompted to authorize the Linx authentication service access to your identity.
@@ -147,15 +149,13 @@ A Postman collection has been created to automate the usage and testing of the a
 
 ---
 
-### Usage with Linx
+### Using with the Linx Designer
 
 
 A Linx Solution has been developed to automate the usage and testing of the authentication service. This is a very basic solution which does not store your API Key automatically. You will therefore need to follow the below manual steps to register as a user and generate access tokens.
 
-[![Linx Automated Tests](https://img.shields.io/badge/-Automated_tests-gray.svg?style=flat-square&labelColor=2EB398&color=white&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjIsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxNTBweCIgaGVpZ2h0PSIxNTBweCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1MCAxNTAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGRlZnM+DQo8L2RlZnM+DQo8cmVjdCBmaWxsPSIjMkVCMzk4IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIvPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTY2LjE0NywxMDYuMDM4aDYzLjIxN3YyNi41NDhINjYuMTQ3Yy0zMi44NywwLTQ1LjUxMi0xMy42OTctNDUuNTEyLTQxLjA4OVYxNy40MTRoMzIuODd2NzQuMDgzDQoJQzUzLjUwNiw5Ni4yMTgsNTYuMDU1LDEwNi4wMzgsNjYuMTQ3LDEwNi4wMzh6Ii8+DQo8cGF0aCBvcGFjaXR5PSIwLjMiIGZpbGw9IiM0RDRENEQiIGQ9Ik02Ni4xNDcsMTA2LjAzOGMtMTAuMDkzLDAtMTIuNjQyLTkuODItMTIuNjQyLTE0LjU0MXYtMC4yNzgNCgljMCwyOS4zODItMS45MTcsNDEuMzY3LDExLjE4Niw0MS4zNjdoNjQuNjczdi0yNi41NDhINjYuMTQ3eiIvPg0KPC9zdmc+DQo=)](/tests/linx-automated-testing/)
 
-
-1. Open up the Linx automated testing Solution in your Linx Designer.
+1. Open up the [automated testing Solution](/tests/linx-automated-testing/) in your Linx Designer.
 2. Edit the Solution's setting `LinxServerHostname` to be the name of your Linx instance. So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
 3. Register a new API key: Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
    ```
