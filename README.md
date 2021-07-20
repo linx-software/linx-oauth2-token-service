@@ -1,12 +1,12 @@
-# OAuth 2.0 Token Authentication Service
+# linx-oauth2-authentication-service
 
 ## Description
 
-Server-side authentication service to manage the secure generation, storage and retrieval of access tokens. 
+Server-side [Linx](https://linx.software/) application to manage the secure generation, storage and retrieval of access tokens. 
 
-- Create API Keys
+- Create API Keys for users.
 - Link API Keys to access tokens.
-- Intiate the OAuth 2.0 authorization flow and generate access tokens.
+- Intiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
 - Encrypt and store access tokens.
 - Externally retrieve access token for external request usage.
 
@@ -111,10 +111,10 @@ Once deployed, this service can be used by you an others from a number of differ
 
 A Postman collection has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
 
-[![Made with Postman](https://img.shields.io/badge/Postman_tests-white?style=flat-square&logo=postman&color=EF5B25&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
+[![Made with Postman](https://img.shields.io/badge/Postman_tests-white?style=flat-square&logo=postman&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
 
 
- 1. __Configure Postman collection__: Open the provided Postman request collection and edit the collection variables to reflect your server details. The default 'admin' user credentials already exist.
+ 1. Configure Postman collection: Open the provided Postman request collection and edit the collection variables to reflect your server details. The default 'admin' user credentials already exist.
 1. Register as a new user: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token adminstration operations. 
    
  
@@ -164,6 +164,8 @@ A Linx Solution has been developed to automate the usage and testing of the auth
 6. To test your access token, debug the TestAccessTokenGithub function, pasting the access token in the input parameter.
 7. You should see the details of the authenticated user being returned from the HTTP request.
 
+---
+
 ## Customizing
 This sample has been built to handle the OAuth 2.0 authorization flow as generically as possible, however, slight differences occur in the implementation by the different service providers. 
 
@@ -171,6 +173,14 @@ In some cases, adding a new service provider is as easy as running the generic c
 
 If you would like to see a specific service provider added to the sample, create an issue in this repo or send your request to support@linx.software.
 
+---
+## Missing pieces and roadmap
+
+Currently, all the interaction with the service is achieved using a request platform like Linx or Postman which required you to manually execute the required steps. 
+
+The plan for this project is to hopefully implement a front-end with JavaScript or React which will allow you to more easily manage tokens from a front-end portal, without having to set up web service calls to manage user registration and token generation.
+
+---
 
 ## License
 
