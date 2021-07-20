@@ -13,10 +13,10 @@ Server-side authentication service to manage the secure generation, storage and 
 
 The following 3rd-party service providers have already been setup with the Linx Solution:
 
-- [GitHub](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps)
-- [Microsot Graph](https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0&preserve-view=true)
-- [Salesforce](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_curl.htm)
-- [Google]()
+- GitHub
+- Microsot Graph
+- Salesforce
+- Google
 
 ---
 
@@ -70,7 +70,7 @@ The Solution uses a MySQL database to store user related credentials.
 
 ### Register a new app with the Servive provider
 
-1. Login in to the chosen service providers developer console.
+1. Login in to the chosen service provider's developer console (i.e. Github).
 2. Register a new connected/oauth application.
 3. Provide a 'Redirect' or 'Callback' url which is used to return the authorization code.
    
@@ -115,19 +115,19 @@ A Postman collection has been created to automate the usage and testing of the a
 
 
  1. __Configure Postman collection__: Open the provided Postman request collection and edit the collection variables to reflect your server details. The default 'admin' user credentials already exist.
-1. __Register as a new user__: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token adminstration operations. 
+1. Register as a new user: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token adminstration operations. 
    
  
-2. __Register a new API key__: Execute the __RegisterApiKey__ request from the collection. Provide a name for your API key in the requestBody.
+2. Register a new API key: Execute the __RegisterApiKey__ request from the collection. Provide a name for your API key in the requestBody.
   
-3. __Initiate the OAuth 2.0 flow__: To initate the the authorization process and recieve the authorization url. Execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` parameter.
-4. __Authorize the Linx app__: Copy the response from the previous request and navigate to the url in a browser. You will be prompted to authorize the Linx authentication service access.
+3. Initiate the OAuth 2.0 flow: To initate the the authorization process and recieve the authorization url. Execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` parameter.
+4. Authorize the Linx app: Copy the response from the previous request and navigate to the url in a browser. You will be prompted to authorize the Linx authentication service access.
   
-5. __Token generation__: The Linx Service will recieve the callback request and exchange tha authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. The unencrypted access token will be returned in the response. 
+5. Token generation: The Linx Service will recieve the callback request and exchange tha authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. 
   
-5. __Token retrieval__: To retrieve an access token for use when making request to the service provider's API, execute the __FetchToken__ request in the Postman collection. Edit the `system` query parameter to your chosen service provider and execute the request.
+5. Token retrieval: To retrieve an access token for use when making request to the service provider's API, execute the __FetchToken__ request in the Postman collection. Edit the `system` query parameter to your chosen service provider and execute the request.
       
-   A string containing the decrypted access token is then returned.
+   A string containing the decrypted access token is then returned in the response.
 
 ---
 
