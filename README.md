@@ -4,8 +4,9 @@
 
 Server-side [Linx](https://linx.software/) application to manage the secure generation, storage and retrieval of access tokens. 
 
-- Create API Keys for users.
-- Link API Keys to access tokens.
+- User profile management
+- Create API Keys
+- Link API Keys to access tokens
 - Initiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
 - Encrypt and store access tokens.
 - Externally retrieve access token for external request usage.
@@ -65,8 +66,6 @@ The Solution uses a MySQL database to store user related credentials.
 - DatabasePassword: Password for your db instance
 - DatabaseServer: If you are hosting on a Linx Cloud server, add your database instance name here, so for example `dev1db.linx.twenty57.net`.
 
-
-
 ### Solution deployment
 
 1. Deploy the sample Solution to your server instance.
@@ -77,23 +76,9 @@ The Solution uses a MySQL database to store user related credentials.
 
 ### Register a new app with the service provider
 
-1. Login in to the chosen service provider's developer console (i.e. Github).
-2. Register a new connected/oauth application.
-3. Provide a 'Redirect' or 'Callback' url which is used to return the authorization code.
-   
-   To get this value without manually typing it out, make a request to the [CallbackURL operation](https://demo.api.linx.twenty57.net/linxauth/swagger/index.html?url=/linxauth/documentation/openapi.json#/OAuth%202.0%20flow/CallbackUrl).
+Register a new app with service provider and generate the neccessary client identifiers.
 
-   This will return a string built up of the callback URL that you can then add to your app registration:
-   ```
-   https://dev1.api.linx.twenty57.net/linxauth/callback
-   ```
-
-   Add this string as the 'redirect url' in your app registration.
-5. Add the selected scopes.
-4. Save your app.
-1. Copy the Client Id and Client Secret (generate a new one) values.
-
-For more technical details of the different service providers and considerations, take a look at the [wiki]().
+For more technical details of the registration process and the different service providers and their nuances, take a look at the [wiki]().
 
 ### Update Linx Solution's config
 
@@ -101,10 +86,14 @@ The Linx Solution is configured to use service provider's connection details whi
 
 1. Navigate to the __Config__ Project (Left menu > Projects > Config).
 2. Locate the function specific to your service provider, i.e. the function _WriteConfigFileGithub_ is configured specifically for writing out the connection details for the GitHub API. 
-3. Click __Run__, you will need to fill in the input parameters such as the _ClientId_ and _ClientSecret_ and other variable values such as the _Scopes_ if they differ from the default Solution. 
-4. After filling in the fields, __run__ the function.
+3. Click  __Run Function__
+4. Complete the missing input parameters:
+   - _ClientId_ 
+   - _ClientSecret_ 
+   - _ClientScopes_: If the chosen scopes differ from the default Solution then update this value. *These scopes will need to be entered in the specified format specified in the service provider's documentation*.
+4. Click __RUN FUNCTION__.
 
-The service providers new connection information will be updated and written to a file on the server. 
+The service providers new connection information will written to a file on the server. 
 
 The setup is now complete 🚀
 
@@ -123,7 +112,7 @@ For more technical details of the different operations involved, take a look at 
 
 A Postman collection has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
 
-[![Made with Postman](https://img.shields.io/badge/Postman_tests-white?style=flat-square&logo=postman&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
+[![Postman test collection](https://img.shields.io/badge/Postman_tests-white?style=flat-square&logo=postman&labelColor=white)](/tests/postman-collection/linx-auth-request-collection.json)
 
 
  1. Configure Postman collection: Open the provided Postman request collection and edit the collection variables to reflect your server details. The default 'admin' user credentials already exist.
@@ -132,7 +121,7 @@ A Postman collection has been created to automate the usage and testing of the a
  
 2. Register a new API key: Execute the __RegisterApiKey__ request from the collection. Provide a name for your API key in the requestBody.
   
-3. Initiate the OAuth 2.0 flow: To initiate the the authorization process and receive the authorization url. Execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` parameter.
+3. Initiate the OAuth 2.0 flow: To initiate the the authorization process and receive the authorization url, execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` query parameter.
 4. Authorize the Linx app: Copy the response from the previous request and navigate to the URL in a browser. You will be prompted to authorize the Linx authentication service access to your identity.
   
 5. Token generation: The Linx Service will receive the callback request and exchange the authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. 
@@ -188,9 +177,9 @@ If you would like to see a specific service provider added to the sample, create
 ---
 ## Missing pieces and roadmap
 
-Currently, all the interaction with the service is achieved using a request platform like Linx or Postman which requires you to manually execute the required steps. 
+A limitation of the current design is that only 1 access token per service provider can exist per API Key. Adding a feature to have multiple access tokens for a service linked to a single API Key would be useful.
 
-The plan for this project is to hopefully implement a front-end with JavaScript or React which will allow you to more easily manage tokens from a front-end portal, without having to set up web service calls to manage user registration and token generation.
+Currently, all the interaction with the service is achieved using a request platform like Linx or Postman which requires you to manually execute the required steps. The plan for this project is to hopefully implement a front-end with JavaScript or React which will allow you to more easily manage tokens from a front-end portal, without having to set up web service calls to manage user registration and token generation etc.
 
 ---
 

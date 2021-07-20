@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS `UserTokens` (
   `KeyId` int NOT NULL,
   `System` VARCHAR(500) NOT NULL,
   `Expires` int NULL,
-  `AccessTokenObj` VARCHAR(5000) NOT NULL
+  `AccessTokenObj` VARCHAR(5000) NOT NULL,
+  PRIMARY KEY (`KeyId`, `System` )
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
