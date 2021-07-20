@@ -4,12 +4,13 @@
 
 Server-side [Linx](https://linx.software/) application to manage the secure generation, storage and retrieval of access tokens. 
 
-- User profile management
-- Create API Keys
+Features:
+- Create mulitple user profiles
+- Generate API Keys
 - Link API Keys to access tokens
 - Initiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
 - Encrypt and store access tokens.
-- Externally retrieve access token for external request usage.
+- Retrieve access token for external request usage.
 
 
 The following 3rd-party service providers have already been setup with the Linx Solution:
@@ -54,14 +55,11 @@ For more technical details of the service architecture and design, take a look a
 
 The below steps describe how to host this Solution on your own Linx cloud server environment.
 
----
-
 ### Install Linx
 1. Register for a Linx Designer license and download [here](https://linx.software/get-started-and-download-linx-a-low-code-platform-for-developers/).
 2. Install the Linx Designer.
 2. Register for a trial Linx cloud server and MySQL cloud database [here](https://linx.software/server-buy2/).
 
----
 
 ### Run database setup scripts
 The Solution uses a MySQL database to store user related credentials.
@@ -70,7 +68,6 @@ The Solution uses a MySQL database to store user related credentials.
    - `DatabasePassword`: Password for your db instance
    - `DatabaseServer`: If you are hosting on a Linx Cloud server, add your database instance name here, so for example `dev1db.linx.twenty57.net`.
 
----
 
 ### Deploy to your cloud server
 
@@ -81,8 +78,6 @@ The Solution uses a MySQL database to store user related credentials.
  3. On the services page, __start__ all of the services in the Solution.   
 
 
----
-
 ### Register an app and client identifiers
 
 Client identifiers need to be configured between the service provider and the Linx Solution. 
@@ -91,7 +86,6 @@ Register a new app with service provider and generate the neccessary client iden
 
 For more technical details of the registration process and the different service providers and their nuances, take a look at the [wiki]().
 
----
 
 ### Update the Linx Solution's config
 
