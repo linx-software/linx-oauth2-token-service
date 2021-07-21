@@ -56,33 +56,28 @@ For more technical details of the service architecture and design, take a look a
 The below steps describe how to host this Solution on your own Linx cloud server environment.
 
 ### Install Linx
-1. Register for a Linx Designer license and download [here](https://linx.software/get-started-and-download-linx-a-low-code-platform-for-developers/).
-2. Install the Linx Designer.
+This solution runs on a Linx cloud server instance and integrates with a hosted MySQL database.
 2. Register for a trial Linx cloud server and MySQL cloud database [here](https://linx.software/server-buy2/).
-
+2. You will recieve an email containing your Linx cloud server, drive space and MySQL database credentials when your trial server has been activated.
 
 ### Run database setup scripts
 The Solution uses a MySQL database to store user related credentials.
 1. Run the provided setup script on your database instance.
 3. Update the below Setting values in the Linx Solution:
    - `DatabasePassword`: Password for your db instance
-   - `DatabaseServer`: If you are hosting on a Linx Cloud server, add your database instance name here, so for example `dev1db.linx.twenty57.net`.
+   - `DatabaseServer`: Your cloud database server name i.e. `dev1db.linx.twenty57.net`.
 
 
 ### Deploy to your cloud server
 
-1. Log into your cloud server instance and upload the Solution.
-3. Open the Solution's Settings and update the `LinxServerHostname` value to reflect your server instance name -  If you are hosting on a Linx Cloud server, add your instance here.
-
-   For example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
- 3. On the services page, __start__ all of the services in the Solution.   
+1. Log into your cloud server instance and upload the Solution (Top Menu > Server > Upload).
+3. Open the Solution's Settings and update the `LinxServerHostname` value to reflect your server instance name -  for example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
+ 3. On the server dashboard page, __start__ all of the services for the Solution.   
 
 
 ### Register an app and client identifiers
 
-Client identifiers need to be configured between the service provider and the Linx Solution. 
-
-Register a new app with service provider and generate the neccessary client identifiers.
+Client identifiers need to be configured between the service provider and the Linx Solution. You must register a new app with service provider and generate the neccessary client identifiers.
 
 For more technical details of the registration process and the different service providers and their nuances, take a look at the [wiki]().
 
