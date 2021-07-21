@@ -55,15 +55,16 @@ For more technical details of the service architecture and design, take a look a
 
 The below steps describe how to host this Solution on your own Linx cloud server environment.
 
-### Install Linx
+### Register for a Linx trial server
 This solution runs on a Linx cloud server instance and integrates with a hosted MySQL database.
-2. Register for a trial Linx cloud server and MySQL cloud database [here](https://linx.software/server-buy2/).
+
+1. Register for a Linx trial cloud server and MySQL cloud database [here](https://linx.software/server-buy2/).
 2. You will recieve an email containing your Linx cloud server, drive space and MySQL database credentials when your trial server has been activated.
 
 ### Run database setup scripts
 The Solution uses a MySQL database to store user related credentials.
 1. Run the provided setup script on your database instance.
-3. Update the below Setting values in the Linx Solution:
+3. Update the below Setting values in the Linx Solution (these credentials can be found in your server registration email):
    - `DatabasePassword`: Password for your db instance
    - `DatabaseServer`: Your cloud database server name i.e. `dev1db.linx.twenty57.net`.
 
@@ -86,7 +87,7 @@ For more technical details of the registration process and the different service
 
 The Linx Solution is configured to use service provider's connection details which are stored as JSON objects in files on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the necessary config file with your unique client identifiers.
 
-1. From the server dashboard, navigate to the __Config__ Project (Left menu > Projects > Config).
+1. On your main Linx Server dashboard, open the Solution, navigate to the __Config__ Project (Left menu > Projects > Config).
 2. Locate the function specific to your service provider, i.e. the function _WriteConfigFileGithub_ is configured specifically for writing out the connection details for the Github API. 
 3. Click  __Run Function__
 4. Complete the missing input parameters:
