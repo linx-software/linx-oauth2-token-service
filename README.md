@@ -149,19 +149,15 @@ A Linx Solution has been developed to automate the usage and testing of the auth
 2. Edit the Solution's setting `LinxServerHostname` to be the name of your Linx instance. So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
 3. Register a new API key: Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
    ```
-   Function started.
-   Function result:
    {
    "ApiKeyData": {
       "name": "Test Key",
       "expires": "2021-10-20 10:43:41.0000000",
       "apiKey": "YSh+j4osdkgISHXNSJxh5MqYfMUSJiT7XSeU+xoeA="
    }
-   }
-   Function finished.
 
    ```
-   Copy the 'apiKey' value from the debug output.
+   Copy the 'apiKey' string value.
 
    Open the Solution's Settings and past the copied value into the'ApiKey' setting value.
 3. Initiate the OAuth flow: Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. Next, debug the _TestInitiateFlow_ function and STEP OVER the InitateFlow function call. Copy the value from the Debug Values panel and navigate to it in a browser.
@@ -177,7 +173,7 @@ This sample has been built to handle the OAuth 2.0 authorization flow as generic
 
 In some cases, adding a new service provider is as easy as running the generic config file writing function and providing it with the correct API connection info. In others, certain nuances in require additional investigation and development.
 
-If you would like to see a specific service provider added to the sample, create an issue in this repo or send your request to support@linx.software.
+If you would like to see a specific service provider added to the sample or have trouble with the existing sample, send your request to support@linx.software.
 
 ---
 ## Missing pieces and roadmap
