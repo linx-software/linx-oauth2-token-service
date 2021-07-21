@@ -23,7 +23,9 @@ The following 3rd-party service providers have already been setup with the Linx 
 ---
 
 ### Background and motivation
-When building integrations or apps which interact with external service providers such as Google, [Github](https://github.com/linx-software/github-api-connectors) or [Microsoft](https://github.com/linx-software/ms-graph) via REST API, apps require 'access tokens' to authenticate requests made to the service providers API.
+When building integrations using Linx, the majority of the integrations are achieved via HTTP requests to 3rd-party service providers such as Google, GitHub or Microsoft. These services require a user to grant an application permission to act on their behalf. 
+
+This involves the OAuth 2.0 Authorization Code Grant flow between a user, server-side app and the service provider’s authentication server. This flow results in 'access tokens' being generated which are used to authenticate requests made by the app to the service providers API.
 
 Setting up this authorization process can become frustrating and hinder your progress with integrations especially when you want to get started on building out your concepts. Furthermore, when developing integrations in teams, many of the resource access needs to be shared which becomes difficult with manual user authorization.
 
@@ -90,18 +92,8 @@ For more technical details of the registration process and the different service
 
 The Linx Solution is configured to use service provider's connection details which are stored as JSON objects in files on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the necessary config file with your unique client identifiers.
 
-1. On your main Linx Server dashboard, open the Solution, navigate to the __Config__ Project (Left menu > Projects > Config).
-2. Locate the function specific to your service provider, i.e. the function _WriteConfigFileGithub_ is configured specifically for writing out the connection details for the Github API. 
-3. Click  __Run Function__
-4. Complete the missing input parameters:
-   - _ClientId_ 
-   - _ClientSecret_ 
-   - _ClientScopes_: If the chosen scopes differ from the default Solution then update this value. *These scopes will need to be entered in the specified format specified in the service provider's documentation*.
-4. Click __RUN FUNCTION__.
+For more technical details of the configuration process, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
 
-The service providers new connection information will be written to a file on the server drive. 
-
-The setup is now complete 🚀
 
 ---
 
@@ -115,8 +107,7 @@ Listed below are the usage steps involved in using the deployed service from 2 r
 
 For more technical details of the different operations involved, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
 
-
-### Using with Postman
+### Generating tokens with Postman
 
 A [Postman collection](/tests/postman-collection/) has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
 
@@ -170,22 +161,18 @@ A [Postman collection](/tests/postman-collection/) has been created to automate 
 
 ---
 
-### Using with the Linx Designer
+### Generating tokens with the Linx Designer
 
 
 A Linx Solution has been developed to automate the usage and testing of the authentication service. This is a very basic solution which does not store your API Key automatically. You will therefore need to follow the below manual steps to register as a user and generate access tokens.
 
 
-1. __Configure Linx Solution__
-   
-   Open up the [automated testing Solution](/tests/linx-automated-testing/) in your Linx Designer.
+1. __Configure Linx Solution__:  Open up the [automated testing Solution](/tests/linx-automated-testing/) in your Linx Designer.
 
-   Edit the Solution's setting `LinxServerHostname` to be the name of your Linx instance. 
+   Edit the Solution's setting value `LinxServerHostname` to be the name of your Linx instance. 
    
    So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
-3. __Register a new API key__
-
-   Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
+3. __Register a new API key__:   Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
    ```
    {
    "ApiKeyData": {
@@ -198,32 +185,24 @@ A Linx Solution has been developed to automate the usage and testing of the auth
    Copy the 'apiKey' string value.
 
    Open the Solution's Settings and past the copied value into the'ApiKey' setting value and __save__ the Solution.
-3. __Initiate the OAuth flow__
-  
-   Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. 
+3. __Initiate the OAuth flow__: Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. 
    
    Next, debug the _TestInitiateFlow_ function and STEP OVER the _InitateFlow_ function call. 
    
    Copy the value from the Debug Values panel and navigate to it in a browser.
-4. __Authorize the Linx app__
-   
-   Copy the result from the previous function and navigate to the URL in a browser. 
+4. __Authorize the Linx app__:  Copy the result from the previous function and navigate to the URL in a browser. 
    
    You will be prompted to authorize the Linx authentication service access to your identity.
   
-5. __Token generation__
+5. __Token generation__: 
    The Linx Service will receive the callback request and exchange the authorization code for an access token. 
    
    The access token is then encrypted with your API Key and stored in the database. 
 
    The raw access token is returned to the user in the browser.
-4. __Token retrieval__
+4. __Token retrieval__:    Go back to the Linx Designer and debug the _TestFetchToken_ function.  Copy the value of the access token returned from the function call.
 
-   Go back to the Linx Designer and debug the _TestFetchToken_ function.  Copy the value of the access token returned from the function call.
-
-6. __Testing the token__ 
-   
-   Debug the _TestAccessTokenGithub_ function, pasting the access token in the input parameter. 
+6. __Testing the token__ : Debug the _TestAccessTokenGithub_ function, pasting the access token in the input parameter. 
 
 7. You should see the details of the authenticated user being returned from the HTTP request.
 
