@@ -7,8 +7,8 @@ Server-side [Linx](https://linx.software/) application to manage the secure gene
 Features:
 - Create mulitple user profiles
 - Generate API Keys
-- Link API Keys to access tokens
 - Initiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
+- Link API Keys to access tokens.
 - Encrypt and store access tokens.
 - Retrieve access token for external request usage.
 
@@ -19,6 +19,8 @@ The following 3rd-party service providers have already been setup with the Linx 
 - Microsoft Graph
 - Salesforce
 - Google
+
+---
 
 ### Background and motivation
 When building integrations or apps which interact with external service providers such as Google, [Github](https://github.com/linx-software/github-api-connectors) or [Microsoft](https://github.com/linx-software/ms-graph) via REST API, apps require 'access tokens' to authenticate requests made to the service providers API.
@@ -116,14 +118,14 @@ For more technical details of the different operations involved, take a look at 
 
 ### Using with Postman
 
-A [Postman collection](/tests/postman-collection/linx-auth-request-collection.json) has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
+A [Postman collection](/tests/postman-collection/) has been created to automate the usage and testing of the authentication service. The collection contains pre-configured requests with scripts will will store the relevant values returned from the Linx Server.
 
 
 
 
  1. __Configure Postman collection__
  
-    Open Postman and import the provided [request collection](/tests/postman-collection/linx-auth-request-collection.json) in Postman.
+    Open Postman and import the provided [request collection](/tests/postman-collection/) in Postman.
     
     Edit the _Linx OAuth 2.0 authentication service_ Postman collection's variable `linx_instance_name` to reflect your server instance name - for example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
     
@@ -174,9 +176,16 @@ A [Postman collection](/tests/postman-collection/linx-auth-request-collection.js
 A Linx Solution has been developed to automate the usage and testing of the authentication service. This is a very basic solution which does not store your API Key automatically. You will therefore need to follow the below manual steps to register as a user and generate access tokens.
 
 
-1. Open up the [automated testing Solution](/tests/linx-automated-testing/) in your Linx Designer.
-2. Edit the Solution's setting `LinxServerHostname` to be the name of your Linx instance. So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
-3. Register a new API key: Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
+1. __Configure Linx Solution__
+   
+   Open up the [automated testing Solution](/tests/linx-automated-testing/) in your Linx Designer.
+
+   Edit the Solution's setting `LinxServerHostname` to be the name of your Linx instance. 
+   
+   So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
+3. __Register a new API key__
+
+   Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
    ```
    {
    "ApiKeyData": {
@@ -188,17 +197,42 @@ A Linx Solution has been developed to automate the usage and testing of the auth
    ```
    Copy the 'apiKey' string value.
 
-   Open the Solution's Settings and past the copied value into the'ApiKey' setting value.
-3. Initiate the OAuth flow: Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. Next, debug the _TestInitiateFlow_ function and STEP OVER the InitateFlow function call. Copy the value from the Debug Values panel and navigate to it in a browser.
-4. After successful authorization, go back to the Linx Designer and debug the TestFetchToken function, adding a breakpoint and stepping over the FetchToken function call like before.
-5. Copy the value of the access token returned from the function call.
-6. To test your access token, debug the TestAccessTokenGithub function, pasting the access token in the input parameter.
+   Open the Solution's Settings and past the copied value into the'ApiKey' setting value and __save__ the Solution.
+3. __Initiate the OAuth flow__
+  
+   Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. 
+   
+   Next, debug the _TestInitiateFlow_ function and STEP OVER the _InitateFlow_ function call. 
+   
+   Copy the value from the Debug Values panel and navigate to it in a browser.
+4. __Authorize the Linx app__
+   
+   Copy the result from the previous function and navigate to the URL in a browser. 
+   
+   You will be prompted to authorize the Linx authentication service access to your identity.
+  
+5. __Token generation__
+   The Linx Service will receive the callback request and exchange the authorization code for an access token. 
+   
+   The access token is then encrypted with your API Key and stored in the database. 
+
+   The raw access token is returned to the user in the browser.
+4. __Token retrieval__
+
+   Go back to the Linx Designer and debug the _TestFetchToken_ function.  Copy the value of the access token returned from the function call.
+
+6. __Testing the token__ 
+   
+   Debug the _TestAccessTokenGithub_ function, pasting the access token in the input parameter. 
+
 7. You should see the details of the authenticated user being returned from the HTTP request.
 
 
 __Adding users:__
 
-To create a new user, run the CreateUser function from the server dashboard (Projects > UserAdminService > Functions > CreateUser). Add your new username and password as the input parameters. A user record will be created with the username and hashed password for future validation.
+To create a new user, run the _CreateUser_ function from the server dashboard (Projects > UserAdminService > Functions > CreateUser). 
+
+Add your new username and password as the input parameters. A user record will be created with the username and hashed password for future validation.
 
 ---
 
