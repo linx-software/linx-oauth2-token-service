@@ -1,4 +1,4 @@
-# linx-oauth2-authentication-service
+# linx-oauth2-token-service
 
 ## Description
 
@@ -73,7 +73,8 @@ The Solution uses a MySQL database to store user related credentials.
 
 1. Log into your cloud server instance and upload the Solution (Top Menu > Server > Upload).
 3. Open the Solution's Settings and update the `LinxServerHostname` value to reflect your server instance name -  for example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
- 3. On the server dashboard page, __start__ all of the services for the Solution.   
+4. Click __Save__.
+3. On the Solution's service dashboard page, __start__ all of the services for the Solution.   
 
 
 ### Register an app and client identifiers
@@ -120,20 +121,48 @@ A [Postman collection](/tests/postman-collection/linx-auth-request-collection.js
 
 
 
- 1. Configure Postman collection: Open the provided [Postman collection](/tests/postman-collection/linx-auth-request-collection.json) and edit the collection variables to reflect your server details. The default 'admin' user credentials are already completed for you.
-1. Register as a new user: Execute the __RegisterUser__ request from the collection. Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token administration operations. 
+ 1. __Configure Postman collection__
+ 
+    Open Postman and import the provided [request collection](/tests/postman-collection/linx-auth-request-collection.json) in Postman.
+    
+    Edit the _Linx OAuth 2.0 authentication service_ Postman collection's variable `linx_instance_name` to reflect your server instance name - for example, if my server is `https://dev1.linx.twenty57.net` then my instance name is "dev1".
+    
+    __Save__ the collection variables.
+1. __Register as a new user__
+
+   Execute the __RegisterUser__ request from the collection. 
+   
+   Provide a password of your choosing in the `newPassword` field of the request body (default is "admin"). This will be the password used for future token administration operations. 
    
  
-2. Register a new API key: Execute the __RegisterApiKey__ request from the collection. Provide a name for your API key in the requestBody.
+2. __Register a new API key__
 
+   Execute the __RegisterApiKey__ request from the collection.
+   
    A response containing the API Key will be returned as stored in the Postman collection variable.
   
-3. Initiate the OAuth 2.0 flow: To initiate the the authorization process and receive the authorization url, execute the __InitiateFlow__ request from the collection. Add your chosen service provider as the `system` query parameter.
-4. Authorize the Linx app: Copy the response from the previous request and navigate to the URL in a browser. You will be prompted to authorize the Linx authentication service access to your identity.
+3. __Initiate the OAuth 2.0 flow__
+
+   To initiate the the authorization process and receive the authorization url, execute the __InitiateFlow__ request from the collection. 
+   
+   Add your chosen service provider as the `system` query parameter.
+4. __Authorize the Linx app__
+   
+   Copy the response from the previous request and navigate to the URL in a browser. 
+   
+   You will be prompted to authorize the Linx authentication service access to your identity.
   
-5. Token generation: The Linx Service will receive the callback request and exchange the authorization code for an access token. The access token is then encrypted with your API Key and stored in the database. 
+5. __Token generation__
+   The Linx Service will receive the callback request and exchange the authorization code for an access token. 
+   
+   The access token is then encrypted with your API Key and stored in the database. 
+
+   The raw access token is returned to the user in the browser.
   
-5. Token retrieval: To retrieve an access token for use when making request to the service provider's API, execute the __FetchToken__ request in the Postman collection. Edit the `system` query parameter to your chosen service provider and execute the request.
+5. __Token retrieval__
+   To retrieve an access token for use when making request to the service provider's API, execute the __FetchToken__ request in the Postman collection. 
+   
+   Edit the `system` query parameter to your chosen service provider and execute the request.
       
    A string containing the decrypted access token is then returned in the response.
 
@@ -165,6 +194,11 @@ A Linx Solution has been developed to automate the usage and testing of the auth
 5. Copy the value of the access token returned from the function call.
 6. To test your access token, debug the TestAccessTokenGithub function, pasting the access token in the input parameter.
 7. You should see the details of the authenticated user being returned from the HTTP request.
+
+
+__Adding users:__
+
+To create a new user, run the CreateUser function from the server dashboard (Projects > UserAdminService > Functions > CreateUser). Add your new username and password as the input parameters. A user record will be created with the username and hashed password for future validation.
 
 ---
 
