@@ -211,7 +211,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "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",
+							"value": "{{access_token}}",
 							"type": "string"
 						}
 					]
