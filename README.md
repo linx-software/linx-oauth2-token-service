@@ -50,7 +50,7 @@ The ‘Public API’ is responsible for retrieving the different credentials fro
 
 By isolating the services into functional groups and separating data persistence layers, these services can be maintained and extended with much more ease. The isolation provides added control in terms of restricting access from the external world by buffering the systems with the ‘Public API’ layer.
 
-For more technical details of the service architecture and design, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
+For more technical details of the service architecture and design, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki/System-architecture-and-design).
 
 
 ---
@@ -85,14 +85,14 @@ The Solution uses a MySQL database to store user related credentials.
 
 Client identifiers need to be configured between the service provider and the Linx Solution. You must register a new app with service provider and generate the neccessary client identifiers.
 
-For more technical details of the registration process and the different service providers and their nuances, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
+For more technical details of the registration process and the different service providers and their nuances, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki/3rd-party-service-provider-setup#service-providers).
 
 
 ### Update the Linx Solution's config
 
 The Linx Solution is configured to use service provider's connection details which are stored as JSON objects in files on the server drive. When adding a new app configuration i.e. Google, GitHub, Microsoft, you will need to create the necessary config file with your unique client identifiers.
 
-For more technical details of the configuration process, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
+For more technical details of the configuration process, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki/3rd-party-service-provider-setup#server-configuration).
 
 
 ---
@@ -105,7 +105,7 @@ Listed below are the usage steps involved in using the deployed service from 2 r
 - Postman - download it [here](https://www.postman.com/downloads/).
 - Linx Designer - download it [here](https://linx.software/get-started-and-download-linx-a-low-code-platform-for-developers/)
 
-For more technical details of the different operations involved, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
+For more technical details of the different operations involved and the API spec, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki/API-specification).
 
 ### Generating tokens with Postman
 
