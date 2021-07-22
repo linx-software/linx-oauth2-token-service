@@ -20,6 +20,9 @@ The following 3rd-party service providers have already been setup with the Linx 
 - Salesforce
 - Google
 
+
+For more technical details of the service architecture, service providers and API specification, take a look at the [wiki](https://github.com/linx-software/linx-oauth2-token-service/wiki).
+
 ---
 
 ### Background and motivation
