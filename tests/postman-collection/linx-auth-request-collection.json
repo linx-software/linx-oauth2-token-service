@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "06ceb1d1-e226-4225-8773-e175d4406fb1",
+		"_postman_id": "e5c8912d-d7c9-4e9a-9e41-3ff85814cc8b",
 		"name": "Linx OAuth 2.0 authentication service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -352,10 +352,6 @@
 		{
 			"key": "user_password",
 			"value": "root"
-		},
-		{
-			"key": "linx_internal_api_key",
-			"value": "admin"
 		},
 		{
 			"key": "user_api_key",
