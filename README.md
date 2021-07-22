@@ -162,39 +162,46 @@ The Solution is configured to use a default service provider which is stored in 
    
    So for example, if my Linx cloud server instance is `https://dev1.linx.twenty57.net/` , then the my instance name is "dev1".
 3. __Register a new API key__:   Debug the _RegisterApiKey_ function. When the function completes, the Debug Output will display a result like below:
-   ```
-   {
-   "ApiKeyData": {
-      "name": "Test Key",
-      "expires": "2021-10-20 10:43:41.0000000",
-      "apiKey": "YSh+j4osdkgISHXNSJxh5MqYfMUSJiT7XSeU+xoeA="
-   }
 
-   ```
+   ![Register API Key](/img/RegisterApiKey-linx-designer-view.png)
+
    Copy the 'apiKey' string value.
 
    Open the Solution's Settings and past the copied value into the'ApiKey' setting value and __save__ the Solution.
+   ![Save API Key](/img/RegisterApiKey-save-key-linx-designer-view.png)
+   
 3. __Initiate the OAuth flow__: Open the _TestInitiateFlow_ function in your Linx Designer and add a _breakpoint_ (Right click > __Add Breakpoint__) to the InitateFlow function call. 
    
    Next, debug the _TestInitiateFlow_ function and STEP OVER the _InitateFlow_ function call. 
    
    Copy the value from the Debug Values panel and navigate to it in a browser.
+
+   ![Initate flow](/img/InitateFlow-linx-designer-view.png)
+
 4. __Authorize the Linx app__:  Copy the result from the previous function and navigate to the URL in a browser. 
    
    You will be prompted to authorize the Linx authentication service access to your identity.
   
+   ![App authorization](/img/Authorize-github-view.png)
+
 5. __Token generation__: 
    The Linx Service will receive the callback request and exchange the authorization code for an access token. 
    
    The access token is then encrypted with your API Key and stored in the database. 
 
    The raw access token is returned to the user in the browser.
+
+   ![Token Generation](/img/GeneratedToken-github.png)
+
 4. __Token retrieval__:    Go back to the Linx Designer and debug the _TestFetchToken_ function.  Copy the value of the access token returned from the function call.
 
-6. __Testing the token__ : Debug the _TestAccessTokenGithub_ function, pasting the access token in the input parameter. 
+   ![Token retrieval](/img/FetchToken-linx-designer-view.png)
+
+6. __Testing the token__ : Debug the _TestAccessTokenGithub_ function. The access token is retrieved from the service and passed into the GetUser call which returns details of the authenticated user.
 
 7. You should see the details of the authenticated user being returned from the HTTP request.
 
+   ![Token retrieval](/img/AutomatedTest-github.png)
 
 __Adding users:__
 
