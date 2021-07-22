@@ -241,7 +241,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "ya29.a0ARrdaM_uvcBwb5IeM7rUkqIyWt6yyuAzfH72Fq-KXzS9gJwi_cNIQekSXd5vk94k_e-GlNzpnP-Q4G7WhasYiD-ITJO4_GX9gvjn12MaNJmpykJQ4JZpJKGrNzjtBKcYZq1IIU4lFIEEMBFpdPVZVBDJlAny",
+							"value": "{{access_token}}",
 							"type": "string"
 						}
 					]
