@@ -7,7 +7,7 @@ Server-side [Linx](https://linx.software/) application to manage the secure gene
 Features:
 - Create multiple user profiles
 - Generate API Keys
-- Initiate the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) and generate access tokens.
+- Initiate the OAuth 2.0 authorization code grant flow
 - Link API Keys to access tokens.
 - Encrypt and store access tokens.
 - Retrieve access token for external request usage.
@@ -28,7 +28,7 @@ For more technical details of the service architecture, service providers and AP
 ### Background and motivation
 When building integrations using Linx, the majority of the integrations are achieved via HTTP requests to 3rd-party service providers such as Google, GitHub or Microsoft. These services require a user to grant an application permission to act on their behalf. 
 
-This involves the OAuth 2.0 Authorization Code Grant flow between a user, server-side app and the service provider’s authentication server. This flow results in 'access tokens' being generated which are used to authenticate requests made by the app to the service provider's API.
+This involves the [OAuth 2.0 authorization code grant flow](https://oauth.net/2/grant-types/authorization-code/) between a user, server-side app and the service provider’s authentication server. This flow results in 'access tokens' being generated which are used to authenticate requests made by the app to the service provider's API.
 
 Setting up this authorization process can become frustrating and hinder your progress with integrations especially when you want to get started on building out your concepts. Furthermore, when developing integrations in teams, many of the resource access needs to be shared which becomes difficult with manual user authorization.
 
