@@ -234,4 +234,8 @@ Currently, all the interaction with the service is achieved using a request plat
 
 ## License
 
-[MIT](https://github.com/linx-software/template-repo/blob/main/LICENSE.txt)
+
+[MIT License](https://github.com/linx-software/linx-oauth2-token-service/blob/main/LICENSE)
+
+Copyright (c) 2021 Linx software
+
