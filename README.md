@@ -185,7 +185,7 @@ The Solution is configured to use a default service provider which is stored in 
    
    You will be prompted to authorize the Linx authentication service access to your identity.
   
-   ![App authorization](/img/Authorize-github-view.png)
+   ![App authorization](/img/Authorize-github-view2.png)
 
 5. __Token generation__: 
    The Linx Service will receive the callback request and exchange the authorization code for an access token. 
